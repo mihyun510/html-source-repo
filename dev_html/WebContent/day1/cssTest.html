@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!-- 
+html에서는 블럭요소[태그가 자체 크기]와 인라인 요소[한줄에 열거]가 있다.
+ -->
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CSS적용해보기</title>
+<style type="text/css">/* CSS로 테그의 속성을 바꿀수있다. */
+	div{ /* 블럭테그 블럭인 테그는 모두 적용 */
+		display:block;
+		width: 300px;
+		height: 200px;
+		background-color:red;
+	}
+	span{ /* 인라인 테그 - 스펜은 모두 적용   span#id : 특정아이디에만 적용.*/
+		display:inline;
+		width: 200px;
+		height: 500px;
+		background-color:blue;
+	}
+	span#sp_1{ /* span#id : 특정아이디에만 적용. 그리고 블럭으로 바꿔야가능 인라인은 전체 블럭은 개인*/
+		display:block;
+		width: 200px;
+		height: 500px;
+		background-color:yellow;
+	}
+	span#sp_2{ /* display가 none이니 아예 반영이 안된다. 즉 그냥 글씨조차 보이지 않음. */
+		display:none;
+		width: 200px;
+		height: 500px;
+		background-color:green;
+	}
+</style>
+</head>
+<body>
+<div>Div:ajax에서 많이 활용-기억</div> <!-- 줄바꿈이 일어나는 테그 블럭요소 자체크기를 가짐.-->
+<span>Span</span>
+<hr><!-- 줄을 그어준다. 블럭요소 줄바꿈이 되었다.-->
+<span id="sp_1">Hello</span> <!-- 줄바꿈이 자동을 일어나지 않는다. 인라인요소 id가 붙은 아이들은 아이디로 접근가능 -->
+<span id="sp_2">HTML5!!!</span>
+<h1>코로나19</h1> <!-- 개행처리가 되는 테그임 -->
+</body>
+</html>
