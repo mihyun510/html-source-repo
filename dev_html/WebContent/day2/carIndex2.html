@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>네비게이션추가</title>
+<style type="text/css">
+li{list-style:none;}/* ●이런 스타일을 없애겠다. java...앞에 붙어있던 순서없는 리스트의 스타일이 사라졋다. */
+a {text-decoration: none}/* 밑줄을 없애자. };이렇게 끝나지 않게 주의하기 */
+#main_header {
+	background: #1D4088; /* 헤더영역 배경색 */
+	color: white; /* 글자색 */
+	border-bottom: 5px solid black; /* padding아래배경 */
+}
+#main_nav{
+	overflow: hidden;
+}
+#main_nav > ul.left {/* .으로 클래스를접근 >은 네비가 ul로 접근한다. 이동한다. */
+	overflow: hidden;
+	float: left;
+}
+</style>
+</head>
+<body>
+	<center>
+		<!-- 가운데 정렬 테그 -->
+		<!-- 								           ┌>가변형 => %를 사용한다. 80% = 반응형웹 -->
+		<table border="0" borderColor="red" width="950px" height="580px">
+			<!--================ header 영역================== -->
+			<tr height="50px">
+				<td id="main_header"><h1>Header</h1></td>
+			</tr>
+			<!-- =============== navi 영역==================== -->
+			<tr height="50px">
+				<td>
+					<nav id="main_nav"><!-- nav:네비게이션  -->
+						<ul class="left"><!-- class는 중복이 허용됨, id는 허용불가, 둘다 css에서 접근가능.테이블 열거 -->
+							<li><a href="#">Java</a></li><!-- a태그:밑줄그어짐, href:링크걸림,li:순서없는 리스트-->
+							<li><a href="#">Oracle</a></li>
+							<li><a href="#">HTML</a></li>
+							<li><a href="#">JSON</a></li>
+							<li><a href="#">CSS3</a></li>
+						</ul>
+					</nav>
+				</td>
+			</tr>
+			<!-- ===============body 영역 =====================-->
+			<tr>
+				<td>
+					<!--     ┌>안에 데이터가 들어가는 부분과 밖에 테두리와의 간격 padding? -->
+					<table border="0" borderColor="green" width="950px" height="450px">
+						<tr>
+							<td width="200px" height="100%" valign="top">
+								<!-- valign="top" 열이 top으로 맞춰짐. -->
+								<h1>Aside</h1> Lorem ipsum dolor sit amet, consectetur
+								adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+								dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+								exercitation ullamco laboris nisi ut aliquip ex ea commodo
+								consequat. Duis aute irure dolor in reprehenderit in voluptate
+								velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+								sint occaecat cupidatat non proident, sunt in culpa qui officia
+								deserunt mollit anim id est laborum.
+							</td>
+							<td width="750px" height="100%" valign="top">
+								<h1>Section</h1> Curabitur pretium tincidunt lacus. Nulla
+								gravida orci a odio. Nullam varius, turpis et commodo pharetra,
+								est eros bibendum elit, nec luctus magna felis sollicitudin
+								mauris. Integer in mauris eu nibh euismod gravida. Duis ac
+								tellus et risus vulputate vehicula. Donec lobortis risus a elit.
+								Etiam tempor. Ut ullamcorper, ligula eu tempor congue, eros est
+								euismod turpis, id tincidunt sapien risus a quam. Maecenas
+								fermentum consequat mi. Donec fermentum. Pellentesque malesuada
+								nulla a mi. Duis sapien sem, aliquet nec, commodo eget,
+								consequat quis, neque. Aliquam faucibus, elit ut dictum aliquet,
+								felis nisl adipiscing sapien, sed malesuada diam lacus eget
+								erat. Cras mollis scelerisque nunc. Nullam arcu. Aliquam
+								consequat. Curabitur augue lorem, dapibus quis, laoreet et,
+								pretium ac, nisi. Aenean magna nisl, mollis quis, molestie eu,
+								feugiat in, orci. In hac habitasse platea dictumst.
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<!-- ================footer 영역==================== -->
+			<tr height="30px" whith="950px">
+				<td><h1>Footer</h1></td>
+			</tr>
+		</table>
+	</center>
+
+</body>
+</html>
