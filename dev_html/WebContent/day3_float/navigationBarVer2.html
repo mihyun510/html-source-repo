@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>네비게이션 구현 - 태블릿 디자인</title>
+        <style type="text/css">
+            *{margin:0; padding:0;}
+            li{list-style: none;}
+            a{ text-decoration: none;}
+        </style>
+        <!-- 공동으로 사용할 수 있는 스타일 초기화 끝 -->
+        
+        <style type="text/css">
+            #main_header{
+                background-color: coral; 
+                height: 60px;
+                border-bottom: 1px solid black;
+                padding-left: 10px; /* 내부에 생기는 여백, margin: 외부에 생기는 여백 */
+                color: white;
+            }
+            #main_gnb{
+                overflow: hidden; 
+                background-color: darksalmon;
+            }
+            /* 후손선택자 <->  #main_gnb > a 자손선택자*/
+            #main_gnb a{
+                color: white;
+                /* padding: 10px 20px; */
+                font-weight: bold;
+            }
+            #main_gnb >  ul.left{
+                float: left;
+            }
+            #main_right> ul.right{
+                float: right; 
+            }
+            #main_gnb > ul.left > li{
+                float: left; 
+                border-left: 1px solid greenyellow;
+                border-right: 1px solid greenyellow;
+                margin-left: 5px;
+                padding: 10px;
+            }
+            #main_gnb > ul.right > li{
+                float: right; 
+                border-left: 1px solid greenyellow;
+                border-right: 1px solid greenyellow;
+                margin-right: 5px;
+                padding: 10px;
+            }
+        </style>
+        <!-- main header 영역 스타일 끝 -->
+
+    </head>
+    <body>
+        <header id="main_header">
+            <h1>JAVA59기</h1>
+        </header>
+        <nav id="main_gnb">
+            <ul class="left">
+                <li><a href="#">Java수업</a></li>
+                <li><a href="#">Oracle수업</a></li>
+                <li><a href="#">HTML수업</a></li>
+            </ul>
+            <ul class="right">
+                <li><a href="#">로그인</a></li>
+                <li><a href="#">회원가입</a></li>
+            </ul>
+        </nav>
+    </body>
+</html>

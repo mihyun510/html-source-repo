@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>css3 후손 선택자</title>
+<style type="text/css">
+/* 어느 범위까지 적용이 되는 거지? */
+	#header > h1{	/* header아이디를 가진 div안에 h1에 적용할 것이다. */
+		color:red;
+	}
+	#section h1{ /* >가 없다면 후손이 되는 것이다.즉,모든 후손에대해서 적용이된다.
+					 있다면 자손선택자가 되는 것이다. 즉, 자손에 대해서만 적용이된다. */
+		color:orange;
+	}
+</style>
+</head>
+<body>
+	<div id="header"><!-- 부모선택자 -->
+		<h1 class="title">네비게이션 :자손</h1> <!-- 자손선택자 -->
+		<div id="nav">
+			<h1>Navigation : 후손</h1><!-- 후손 선택자 -->
+		</div>
+	</div>
+	<div id="section">
+		<h1 class="title">후손 선택자:자손</h1>
+		<div>
+			<p>p태그 연습</p><!-- p태그:본문을 작성하는 태그 -->
+		</div>
+	</div>
+</body>
+</html>

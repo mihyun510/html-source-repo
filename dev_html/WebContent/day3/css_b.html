@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>css 선택자</title>
+<style type="text/css">
+	li.select{
+		font-size:20px;
+		color: red;
+		width: 300px;
+		background:yellow
+	}
+	li{
+		font-size:30px;
+	}
+	img[src$=png]{ /*src$=확장자 */
+		border: 5px solid black
+	}
+	img.img1{
+		border: 6px solid red
+	}
+	img#img2{
+		border: 6px solid yellow
+	}
+	
+	
+</style>
+</head>
+<body>
+	<ul>
+		<li class="select"><a href="#">java</a></li>
+		<li><a href="#">로그인</a></li>
+		<li class="select"><a href="#">회원가입</a></li>
+	</ul>
+	<hr>
+	<img class="img1" src="../img/honja.png" width="200" height="250"/>
+	<img id = "img2" src="../img/java1.png" width="200" height="250"/>
+	<img src="../img/java2.png" width="200" height="250"/>
+</body>
+</html>

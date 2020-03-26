@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>floatLayout.html[float속성을 이용한 레이아웃]</title>
+        <style type="text/css">
+            #header{
+                width: 950px; height: 80px;
+                background-color: lightsalmon;
+            }
+            #navigation{
+                width: 950px; height: 50px;
+                background-color: rgb(211, 103, 41);
+            }
+            #wrap{
+                overflow: hidden;/* 내용이 상자를 넘어섰을 떄 내용이 보이지 않게 한다. */
+            }
+            #aside{
+                width: 200px; height: 450px;
+                background-color: rgb(241, 8, 8);
+                float: left; 
+                margin-right: 20px;
+                margin-top: 20px;
+            }
+            #section{
+                width: 750px; height: 450px;
+                background-color: rgb(175, 45, 45);   
+                float: left;    
+                margin-top: 20px;
+            }
+            #footer{
+                width: 950px; height: 50px;
+                background-color: rgb(228, 135, 13);
+            }
+        </style>
+    </head>
+    <body>
+        <div id="header"><h1>Header</h1></div>
+        <div id="navigation"><h1>Navigation</h1></div>  
+        <div id="wrap">
+            <div id="aside">
+                <h1>Aside</h1>
+            </div>
+            <div id="section">
+                <h1>Section</h1>
+            </div>
+        </div>
+        <div id="footer"><h1>Footer</h1></div>
+    </body>
+</html>

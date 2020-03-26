@@ -6,7 +6,8 @@
 <script type="text/javascript">
 	function confirm(){
 		var v_msg = document.getElementById("d_msg");
-		v_msg.innerText="<font color='red><h1>after</h1></font> v_msg"+v_msg;
+		v_msg.innerHTML="<font color='red><h1>after</h1></font> v_msg"+v_msg;
+		v_msg.innerText="<font color='red><h1>after</h1></font> v_msg"+v_msg; //인터프리터x >테그를 모두 보여준다.
 		//v_msg.innerText="after v_msg"+v_msg;
 	}
 </script>
