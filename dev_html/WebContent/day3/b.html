@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>자바스크립트와 html태그와 만나기 - div태그사용</title>
+<script type="text/javascript">
+	function confirm(){
+		var v_msg = document.getElementById("d_msg");
+		v_msg.innerText="<font color='red><h1>after</h1></font> v_msg"+v_msg;
+		//v_msg.innerText="after v_msg"+v_msg;
+	}
+</script>
+</head>
+<body>
+<!-- <script type="text/javascript">
+	//before
+	//	┌> v_msgnull b.html?1:12 -> 콘솔 확인하면 null값이 들어가 있음을 알 수 있음.
+	var v_msg = document.getElementById("d_msg"); //undefind이 떨어지면 이 함수는 after에 존재해야 한다.
+	console.log("v_msg"+v_msg); //콘솔을 제공하는 크롬. > 크롬을 사용하는 이유.
+</script> -->
+<div id="d_msg">당신의 아이디를 입력하세요.[안내]</div><!-- 설정한 id를 접근하기 -->
+<script type="text/javascript">
+	//after
+	//							┌>tag이름
+	//	┌>v_msg[object HTMLDivElement] b.html?1:18-->콘솔 확인하면 값이 들어감을 확인. /즉, 후에 존재해야된다는 것을 확인.
+	var v_msg = document.getElementById("d_msg"); //d_msg인 id에 접근하겠다. 
+	//v_msg.innerText="after v_msg"+v_msg; //콘솔의 메세지를 웹페이지에 나타나게 해보고 싶다.
+	console.log("after v_msg"+v_msg);
+</script>
+<button onClick="confirm()">확인</button><!-- 버튼을 누르면 함수를 호출하자. -->
+</body>
+</html>

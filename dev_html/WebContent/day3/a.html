@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>자바스크립트 위치</title>
+<!-- header 영역 
+전역변수 선언
+함수선언 - 함수를 호출해야 함수가 실행됨.
+-->
+<script type="text/javascript">
+	var mem_id="apple";//전역변수
+	function test(){
+		alert(mem_id + " test호출 성공");//전역변수 호출 가능
+	}
+</script>
+</head>
+<body>
+<!-- body 영역
+함수를 호출하지 않아도 즉시 실행됨.
+함수에서 이벤트 처리를 한다. - 즉, 이벤트를 실행시킬려면 js의 함수를 선언하자.
+ -->
+<script type="text/javascript">
+	test();
+	document.write("안녕");
+</script>
+</body>
+</html>
