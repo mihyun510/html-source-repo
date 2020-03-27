@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>css_jqurey</title>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+</head>
+<body>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('h1').css({
+                background: 'orange',
+                color: 'blue'
+            });
+            $('#item1').css({
+                background: 'black',
+                color: 'white'
+            })
+            $('.item2').css({
+                background: 'green',
+                color: 'red'
+                
+            })
+            $('#item4').css({
+                background: 'blue',
+                color: 'orange'
+                
+            })
+        });/* ready : dom구성이 끝낫니? */
+    </script>
+    <h1>item - 0</h1>
+    <h1 id="item1">item - 1</h1>
+    <h1 class="item2">item - 2</h1>
+    <h1 class="item2">item - 3</h1>
+    <h1 id="item4">item - 4</h1>
+</body>
+</html>

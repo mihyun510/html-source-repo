@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>DOM 생성하기</title>
+</head>
+<body>
+<script type="text/javascript">
+/* 태그를 쓰지 않았지만 태그를 쓴것같은 효과를 줄 수 있다. */
+    window.onload = function(){
+        var header = document.createElement("h1");
+        var textNode = document.createTextNode("Hello DOM!!");
+        //노드를 연결
+        header.appendChild(textNode);
+        document.body.appendChild(header);
+    }
+</script>
+<h2>오늘의 날씨</h2>
+</body>
+</html>

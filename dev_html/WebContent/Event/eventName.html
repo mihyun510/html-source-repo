@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>자동완성기능.onkeyup - 키를 눌렀다가 놓을때</title>
+        <script type="text/javascript">
+            function whenClick(e){
+                alert("클릭====> "+e);
+            }
+            function whenKeyUp(e){
+                alert("키보드를 눌렀다가 해제할 때 ====> "+e);
+            }
+        </script>
+    </head>
+    <body>
+        <!-- onkeyup 이벤트는 포커스가 가면 이벤트가 일어나는 것이 아니라 키를 눌렀다가 놓을때 발생한다. -->
+        <h1 onclick="whenClick(event)">Click</h1>
+        <input type="text" onkeyup="whenKeyUp(event)">
+    </body>
+</html>

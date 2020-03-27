@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>현재 시간 - timeThread</title>
+</head>
+<body>
+<script type="text/javascript">
+    window.onload = function(){
+        var clock = document.getElementById('clock');
+        setInterval(function(){
+            clock.innerHTML = new Date().toString();/* 날짜정보를 가져온다. */
+        },1000);/* 1000은 1초 */
+    }
+</script>
+<h1 id="clock">현재 시간</h1>
+</body>
+</html>

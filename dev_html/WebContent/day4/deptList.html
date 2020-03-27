@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>부서목록</title>
+</head>
+<body>
+<script type="text/javascript">
+    var tags ="";
+    tags +="<table border='1' borderColor='red' width='460'>";
+    tags +="<tr><th width ='110'>부서번호</th><th width = '150'>부서명</th><th width ='200'>지역</th></tr>";
+    for(var i=0; i<3; i++){
+        tags+="<tr><td>1</td><td>2</td><td>3</td></tr>"
+    }
+    tags +="</table>";
+    document.write(tags);
+</script>
+<table border='1' borderColor='red' width='460'>
+    <tr><th width='110'>부서번호</th><th width='150'>부서명</th><th width='200'>지역</th></tr>
+    <tr><td>1</td><td>2</td><td>3</td></tr>
+</table>
+</body>
+</html>

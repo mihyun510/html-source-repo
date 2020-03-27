@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>ready demo</title>
+  <style>
+  p {
+    color: red;
+  }
+  div{
+    color: aqua;
+  }
+  #d_test{
+    color: blueviolet;
+  }
+  #d_test > h1{
+    color: brown;
+  }
+  .c_test{
+    color: pink;
+  }
+  .c_test > h1 {
+    color: blue;
+  }
+  </style>
+  
+  <script src="https://code.jquery.com/jquery-3.4.1.js"></script><!-- 이 것이 없으면 $기호를 알 수없다고 뜬다, 임포트부분이다. is not define 떨어진다. -->
+  <script>
+  $(function() {/* $ = jquery가 존재해야지 사용가능 */
+    $( "div" ).text( "The DOM is now loaded and can be manipulated." );
+  });
+  </script>
+</head>
+<body>
+
+<div>Not loaded yet.</div>
+<div id="d_test"><h1>hello world</h1></div>
+<div class="c_test"><h1>hello world</h1></div>
+<p>p는 뭐지</p>
+
+</body>
+</html>

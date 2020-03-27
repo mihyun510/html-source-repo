@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>PT button count - 스탑워치 2개 구현</title>
+<style>
+
+</style>
+<script type="text/javascript">
+    window.onload = function(){
+        var btn_a = document.getElementById("btn_a");
+        var btn_b = document.getElementById("btn_b");
+        var counter_a = document.getElementById("counter_a");
+        var counter_b = document.getElementById("counter_b");
+        //변수에 대한 이벤트 처리 함수 선언.
+        //자바스크립트에서는 속성에 대한 값을 초기화 할 때 더블 쿼테이션 혹은 싱글 쿼테이션을 붙히지 않으면 변수로 취급함. - 주의할것!!
+        btn_a.onclick = function(){
+            alert("button A 호출");/* 메세지 경고창 띄워줌. */
+            //카운터의 counter_a의 값에서 1씩 증가.
+            counter_a.innerText = Number(counter_a.innerHTML)+1; /* 버튼이 눌렸을때 라벨의 텍스트 창을 바꿔주자. */
+        }
+        btn_b.onclick = function(){
+            alert("button B 호출")
+            counter_b.innerText = Number(counter_b.innerHTML)+1; /* counter_b.innerHTML = b; 이런식으로 하면 안된. "b"가 맞다.
+                                        개발자도구의 콘솔을 확인해보면 오류가 남을 확인할 수있는데
+                                        stopwatchEvent.html:21 Uncaught ReferenceError: b is not defined
+                                        at HTMLButtonElement.btn_b.onclick (stopwatchEvent.html:21) 
+                                        자바 스크립트 에서는 ""가 없다면 변수로 인식한다. 자바스크립트에서는 값을 지정해줄려면 
+                                        ""을 붙혀야된다. */
+        }
+    }
+</script>
+</head>
+<body>
+    <!-- 2개의 버튼 부분 -->
+    <button id="btn_a">ButtonA</button>
+    <button id="btn_b">ButtonB</button>
+    <!-- span부분이 카운터하는 역할, 라벨부분-->
+    <h1>ButtonA - <span id="counter_a">0</span></h1>
+    <h1>ButtonB - <span id="counter_b">0</span></h1>
+    
+</body>
+</html>

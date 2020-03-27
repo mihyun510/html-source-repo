@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>비밀번호 확인하기</title>
+</head>
+<body>
+    <script type="text/javascript">
+        window.onload = function(){
+            document.getElementById("f_member").onsubmit = function(){
+                var u_pw = document.getElementById("mem_pw").value;
+                var u_check = document.getElmentById("pw_check").value;
+                // alert("사용자가 입력한 비번===> "+u_pw);
+                if(u_pw == u_check){
+                    alert("성공");
+                    return ture;
+                } else {
+                    alert("다시 입력해 주세요.");
+                    return false;
+                }
+            }
+        };
+    </script>
+    <!-- 
+        id는 화면에서 name은 서버언어(톰켓)에서 사용한다.
+        get방식: 주소창에 주소가 보여지는 것
+        post방식: 주소창에 주소가 보여지지 않음 . 바디에 함께 넘어간다.
+     -->
+    <form id="f_member" method ="get" action="pwCheckAction.html"><!-- 전송할 것이 들어갈 태그 -->
+        <label>이름</label><br>
+        <input type="text" id="mem_name" name="mem_name"><br>
+        <label>비번</label><br>
+        <input type="password" id="mem_pw" name="mem_pw"><br>
+        <label>비번확인</label><br>
+        <input type="password" id="pw_check" name="pw_check"><br>
+        <input type="submit" value="제출">
+    </form>
+</body>
+</html>
