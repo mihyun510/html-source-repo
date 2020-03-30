@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>연산자-선언방식</title>
+</head>
+<body>
+<script type="text/javascript">
+//콤마에 의하여 분리된 연산들의 순서적으로 실행하고 마지막 연산에 결과를 최종 계간으로 선택하는 연산자 이다.
+    var f1 =10, f2 = 20, f3 = 30, f4;
+    f4=("사과","배","참외","딸기"); //딸기 - ,연산자 같은 경우는 마지막에 대입되는 값이 들어간다.
+    document.write(f4);
+
+/* 
+    confirm():둘 중 하나를 선택해야 할 때 사용. 확인. 취소
+    prompt(): 대화명 상자임.
+*/
+    var name = prompt("당신의 대화명을 입력하세요.");
+    var bool = confirm("당신의 이름이 "+name+"입니까?"); //[return:boolean]yes : true, no : false
+    document.write("bool ==> "+bool);
+
+</script>
+</body>
+</html>

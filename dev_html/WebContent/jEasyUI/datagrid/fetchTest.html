@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>json 파일 콘솔로 확인하기</title>
+</head>
+<body>
+<script type="text/javascript">
+	var result = '';
+/* 
+	Fetch API이용하면 Request 나 Response와 같은 HTTP 통신을 구성하는 요소를 조작하는 것이 가능하다.
+	이것을 이용하면 비동기 통신[:맞추지 않는다. <-> 동기통신]을 구현할 수 있다.
+*/
+	fetch('http://localhost:8000/jEasyUI/datagrid/jsonDeptList.jsp')
+	.then(function(response) {
+		return response.json(); //json형태로 꺼내오기.
+	})
+	.then(function(myJson) {
+		//console.log(JSON.stringify(myJson)); //json 파일 콘솔로 확인하기
+		result = JSON.stringify(myJson);
+		//alter("result:"+result);
+		jsonDoc = JSON.parse(result);
+		document.getElementById("d_here").innerText = jsonDoc;
+		var temp='';
+		temp+="<p>";
+		for(var i=0; i<jsonDoc.length; i++){
+			//alert(jsonDoc[i].dname+", "+jsonDoc[i].loc) //json의 있는 값을 꺼내서 화면처리하기. object로 출력한다.
+			temp+="<h1>"+jsonDoc[i].loc+"</h1>";
+		}
+		temp+="</p>";
+		//document.getElementById("d_here").innerText = temp; //json파일로 얻어온 정보를 화면에 텍스트 형식으로 보여준다. 
+		document.getElementById("d_here").innerHTML = temp; //json파일로 얻어온 정보를 화면에 html 형식으로 보여준다. 즉, 태그가 모두 적용되여나온다.
+		
+		//자동완성기능은 json파일을 받아와서 처리하는 기능이다. 위의 코드는 웹기반 카카오페이, 네이버지도의 정보등을 이용해서 구현해야되는 상황일때
+		//사용하기좋은 [필수?] 코드이다.
+	});
+</script>
+<div id="d_here"></div>
+</body>
+</html>

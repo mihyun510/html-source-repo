@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>javascript로 화면 구현하기</title>
+<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/default/easyui.css"><!-- easyui의 css파일 임포트 -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"></script><!-- jquery 임포트 -->
+<script type="text/javascript" src="https://www.jeasyui.com/easyui/jquery.easyui.min.js"></script><!-- easyUI 임포트 -->
+</head>
+<body>
+<!-- 
+	오라클 서버와 연동 - select문 처리
+	js이용해서 태그를 접근하거나 조작할 수 있다.
+	jeasyui는 어떻게 태그를 접근하고 이벤트 처리하는지 관찰하기.
+	jeasyui API 활용능력 키우기
+ -->
+    <table id="dg_dept" class="easyui-datagrid"></table>
+    <script type="text/javascript">
+    $("#dg_dept").datagrid({
+        url:'./jsonDeptList2.jsp',
+        title:'부서관리',
+        width: 480,
+        columns:[[
+            {field:'deptno',title:'부서번호',width:120,align:'center'},
+            {field:'dname',title:'부서명',width:150,align:'center'},
+            {field:'loc',title:'부서지역',width:200,align:'center'}
+        ]],
+    	onDblClickRow: function(index,row){
+    		alert(row.dname+", "+row.loc+", index:"+index);
+    		//페이지 이동 처리 할때 - get방식
+    		//location도 내장객체이다.
+    		location.href="fetchTest.html";//내장객체, 어디로 이동하고 싶을때 사용
+    	}
+    });
+    </script>
+</body>
+</html>

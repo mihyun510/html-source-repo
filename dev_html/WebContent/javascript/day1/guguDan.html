@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>구구단출력프로그램 - 배열을 지원</title>
+</head>
+<body>
+<h2>구구단 출력 프로그램</h2>
+<script type="text/javascript">
+    //크기를 제한하고 싶다면 new Array(5)이런식으로 초기화 가능 - 인덱스를 0~4까지 지정할 수 있다.
+    var dap = new Array(); //자바스크립트는 배열 태그가 존재한다. 자연적으로 treeTag안에 접근이 가능
+    var dan = prompt("확인하려는 구구단을 입력하세요.", 2);/* default값은 2로 지정 */
+    for(var i=1; i<10; i++){
+        dap[i] = dan*i;
+        document.write(dan,"*",i,"=",dap[i],"<br>"); //+연산자를 이용하여 문장을 연결할 수 있지만 +를 대신해서 ,로 처리가 가능하다.
+    }
+</script>
+
+</body>
+</html>

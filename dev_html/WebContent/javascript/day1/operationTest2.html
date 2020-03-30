@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>비교연산자, var을 선언하지 않아도 사용가능</title>
+</head>
+<body>
+<script type="text/javascript">
+    var r1, r2;
+    r1 = 30 >= 50;
+    r2 = 30 < 50;
+    r3 = "강아지" > "망아지"; /* 따로 var라고 선언을 안해도 사용가능 */
+    document.write(r1+"<br>"); //false
+    document.write(r2+"<br>"); //true
+    document.write(r3+"<br>"); //false
+</script>
+</body>
+</html>

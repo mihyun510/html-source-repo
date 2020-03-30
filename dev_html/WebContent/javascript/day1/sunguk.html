@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>연습문제</title>
+</head>
+<body>
+<script type="text/javascript">
+    var score = prompt("성적을 입력하세요.");
+    var bool = confirm("입력한 성적이 맞습니까?"+score+"점");
+
+    if(bool == true){
+        if(score >= 90){
+            alert("당신의 성적은 A입니다.");
+        }
+        else if(score >=80 && score < 90){
+            alert("당신의 성적은 B입니다.");
+        }
+        else if(score >=70 && score <80){
+            alert("당신의 성적은 C입니다.");
+        }
+        else if(score >=60 && score <70){
+            alert("당신의 성적은 D입니다.");
+        } else{
+            alert("당신의 성적은 F입니다.");
+        }
+    }
+
+    var grade;
+    var sungjuk = prompt("성적을 입력하세요.");
+    if(sungjuk >= 90){
+        grade = "A";
+    }
+    else if(sungjuk >= 80){
+        grade = "B";
+    }
+    else if(sungjuk >= 70){
+        grade = "C";
+    }
+    else if(sungjuk >= 60){
+        grade = "D";
+    }
+    else {
+        grade = "F";
+    }
+    alert("당신의 등급은"+ grade +"입니다.");
+</script>
+</body>
+</html>

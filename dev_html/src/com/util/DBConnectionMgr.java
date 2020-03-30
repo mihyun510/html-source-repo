@@ -1,5 +1,6 @@
 package com.util;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -15,7 +16,7 @@ public class DBConnectionMgr {
 	//물리적으로 떨어져 있는 오라클 서버에 URL정보 추가 //여기 컴퓨터가 켜져있어야 접근가능,orcl11 sd아이디?
 	public static final String _URL = "jdbc:oracle:thin:@192.168.0.15:1521:orcl11"; //서버가 이전하면 ip주소가 바뀜 -> 나 자신의 ip말고 
 	//계정이 있어야 게임서버에 접속가능, 사원이 퇴사하면 바꿔야 되니 final은 아님
-	public static String _USER = "bank";
+	public static String _USER = "scott";
 	public static String _PW = "tiger"; //오라클 회사에서 만들어서 제공해주는 driver임. 오라클 서버에 접근하기 위한 사전준비 코드
 	//물리적으로 떨어져 있는 오라클 서버와 연결통로를 만들 때 사용하는 클래스 
 	//static - 클래스 급이다. - 공유(하나다)
@@ -27,7 +28,7 @@ public class DBConnectionMgr {
 	//java.lang폴더를 제외하고는 모두 다 import해주어야 JVM이 그 클래스를 찾음.
 	public ResultSet rs = null;
 	private DBConnectionMgr() {}
-	//싱글톤 패턴으로 객체 관리하기 - 인스턴스화 과정이다.
+	//싱글톤 패턴으로 객체 관리하기 - 인스턴스화 과정이다. -하나만 사용.
 	public static DBConnectionMgr getInstance() {
 		if(dbMgr == null) {
 			dbMgr = new DBConnectionMgr(); //한번도 인스턴스화가 되지 않았다면 인스턴스화 진행, null이 아닐때는 그냥 있는거 써라
@@ -60,6 +61,23 @@ public class DBConnectionMgr {
 	 * 동시 접속자 수가 많은 시스템에서 자원사용은 곧 메모리랑 직결되므로
 	 * 서버가 다운되거나 시스템 장애 발생에 원인이 됩니다.
 	 */
+	public void freeConnection(Connection con, CallableStatement cstmt, ResultSet rs) {
+		try {
+			//사용자원의 생성 역순으로 반환할것.
+			if(rs!=null) {
+				rs.close();
+			}
+			if(cstmt!=null) {
+				cstmt.close();
+			}
+			if(con!=null){
+				con.close();
+			}
+		}catch(Exception e) {
+			System.out.println("Exception : "+e.toString());
+		}
+	}
+	
 	public void freeConnection(Connection con,PreparedStatement pstmt, ResultSet rs) {
 		try {
 			//사용자원의 생성 역순으로 반환할것.
@@ -79,6 +97,24 @@ public class DBConnectionMgr {
 	//자바에서는 같은 이름의 메소드를 여러개 만들 수 있다.
 	//1)메소드 오버로딩 - 파라미터갯수, 타입
 	//2)메소드 오버라이딩 - 상속) 기능이 다름
+	//3)con, pstmt만 있는 경우 - INSERT|UPDATE|DELETE
+	public void freeConnection(Connection con, CallableStatement cstmt) {
+		try {
+			//사용자원의 생성 역순으로 반환할것.
+			if(rs!=null) {
+				rs.close();
+			}
+			if(cstmt!=null) {
+				cstmt.close();
+			}
+			if(con!=null){
+				con.close();
+			}
+		}catch(Exception e) {
+			System.out.println("Exception : "+e.toString());
+		}
+	}
+	
 	public void freeConnection(Connection con,PreparedStatement pstmt) {
 		try {
 			//사용자원의 생성 역순으로 반환할것.
