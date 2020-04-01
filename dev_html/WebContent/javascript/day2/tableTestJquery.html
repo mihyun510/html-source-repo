@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>tableTest.html과 비교[Jquery사용본]</title>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+	function account(){ //버튼이 눌리고 표가 뜨면 버튼이 사라진다.
+		document.write("<table>");
+		document.write("<table border='1' width='450'>");
+		for(var i =0; i<3;i++){
+		document.write("<tr><td>&nbsp;&nbsp;&nbsp;</td></tr>");
+		}
+		document.write("</table>");
+	}
+	
+</script>
+</head>
+<body>
+<!-- 
+	document내장객체는 tableTest.html가리킨다.
+	자바코드 영역 jsp 자리 <%%>이것 안에 나옴.
+	자바스크립트 코드 영역 - script
+	CSS코드영역 	- head의 style
+	html코드 영역 -body
+	
+ -->
+<script type="text/javascript">	
+	function account(pstart,pend){
+		alert(pstart+", "+pend);
+	}	
+</script>
+<from id="f_gugudan">
+구구단 보기:
+시작단: <input type="text" size="4" id="txtStart" name="txtStart"/>
+끝단: <input type="text" size="4" id="txtEnd" name="txtEnd"/>
+<!-- 										┌>자바스크립트도 자바와 같이 .연산자로 클래스에 접근하고 자원에 접근한다. -->
+<!-- <button onclick="javascript:account(document.getElementById('f_gugudan').txtStart.value,document.getElementById('f_gugudan').txtEnd.value,)">구구단 보기</button> -->
+<button onclick="javascript:account($('#txtStart').val(),$('txtEnd').val())">구구단 보기</button>
+</from>
+</body>
+</html>

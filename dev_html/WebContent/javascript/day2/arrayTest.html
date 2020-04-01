@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>배열 사용하기</title>
+</head>
+<body>
+<script type="text/javascript">
+    /* var = variable의 약자이다. 타입이아님. */
+    var arrWeek = ["일","월","화","수","목","금","토"];
+    document.write(arrWeek[1],"요일<br>");
+    document.write(arrWeek[5],"요일","<br>");/* br태그 분리도 가능. */
+    document.write("<hr>")
+    for(var i=0;i<arrWeek.length; i++){
+        //document.write(arrWeek[i],"요일","<br>");
+        if(i==0 | i==6){
+            alert("i:"+i);
+            document.write("주말","<br>");
+        } else{
+            document.write(arrWeek[i],"요일","<br>");
+        }
+    }
+
+    //이차배열이 가능한지 테스트 해보자
+    //[{"주연배우":"송강호","나이":50,"영화제목":"기생충"}] /* json포맷 */
+    document.write("<hr>");
+    var movie = [
+                    ["엘사",30,"겨울왕국"],
+                    ["아이유",28,"호텔델루나"],
+                    ["김나연",40,"우리집"]
+                ];
+    for(var i=0; i<movie.length; i++){
+        for(var j=0; j<movie.length; j++){
+            document.write(movie[i][j]);
+        }
+        document.write("<br>")
+    }
+</script>
+</body>
+</html>

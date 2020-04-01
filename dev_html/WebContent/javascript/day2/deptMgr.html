@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>인원관리 - 2차배열</title>
+
+<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/color.css">
+<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/demo/demo.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="https://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>	
+
+</head>
+<body>
+    <table id="dg" title="인원"></table>
+    <script type="text/javascript">
+        $('#dg').datagrid({
+            title:'인원관리',
+            url:'deptInfo.jsp',///xxx.json, xxx.jsp, xxx.java(서블릿)
+            columns:[[
+                {field:'AGE',title:'나이',width:100, align:'center'},
+                {field:'NAME',title:'이름',width:100, align:'center'},
+                {field:'PNAME',title:'프로그램명',width:100, align:'center'}
+            ]],
+            onLoadSuccess: function(data){
+				alert("성공");
+            },
+            /*
+           	onDblClickCell: function(index,field,value){
+           		alert("index:"+index+", field:"+field+", value:"+value);
+           	} 클릭이벤트는 하나만 사용가능.*/
+            onDblClickRow: function(index, row){
+            	alert("index:"+index+"\n, row:"+row+"\n, row.AGE:"+row.AGE+"\n, row.NAME:"+row.NAME+"\n, row.PNAME:"+row.PNAME);
+            }
+           /*  data: [
+		        {code:'value11', name:'value12', loc:'value13'},
+		        {code:'value21', name:'value22', loc:'value23'},
+		        {code:'value31', name:'value32', loc:'value33'}
+	        ] */
+        });
+    </script>
+</body>
+</html>

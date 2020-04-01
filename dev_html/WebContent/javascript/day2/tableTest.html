@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>구구단 출력하기 - Table, 배열 사용</title>
+<script type="text/javascript">
+	function account(){ //버튼이 눌리고 표가 뜨면 버튼이 사라진다.
+		document.write("<table>");
+		document.write("<table border='1' width='450'>");
+		for(var i =0; i<3;i++){
+		document.write("<tr><td>&nbsp;&nbsp;&nbsp;</td></tr>");
+		}
+		document.write("</table>");
+	}
+	
+</script>
+</head>
+<body>
+<!-- 
+	document내장객체는 tableTest.html가리킨다.
+	자바코드 영역 jsp 자리 <%%>이것 안에 나옴.
+	자바스크립트 코드 영역 - script
+	CSS코드영역 	- head의 style
+	html코드 영역 -body
+	학습목표
+	나는 document내장 객체를 활용하여 요구사항을 만족하는 화면을 처리할 수 있다.
+ -->
+<script type="text/javascript">
+/* 	document.write("<table>");
+	document.write("<table border='1' width='450'>");
+	for(var i =0; i<3;i++){
+	document.write("<tr><td>&nbsp;&nbsp;&nbsp;</td></tr>");
+	}
+	document.write("</table>"); 표가 버튼이 눌렸을때 나와야되므로 head부분으로 이동하자.*/
+	
+	function account(pstart,pend){
+		//alert(pstart+", "+pend);
+		//헤더 처리
+		document.write("<center><h1>구구단</h1><table width='70%'><tr>");
+		//단수 처리
+		for(var i=pstart; i <= pend; i++){
+			document.write("<td bgcolor='yellow' width='80' height='50' align='center'><b>"+i+"단</b></td>") //"+i+":값은 ""안에 넣어주어야 된다. 안그러면 변수로 인식한다.
+			if(i==pend) document.write("</tr><tr>");
+			document.write("");
+		}		
+		//계산 처리
+		for(var k=pstart; k<=pend; k++){
+			document.write("<td>");
+			for(var j=1; j<=9; j++){
+				document.write(k,"*",j,"=",k*j,"<br>");
+			}
+			document.write("</td>");
+		}
+		document.write("</tr></table></center>");
+	}
+</script>
+<form id="f_gugudan">
+구구단 보기:
+시작단: <input type="text" size="4" name="txtStart"/>
+끝단: <input type="text" size="4" name="txtEnd"/>
+<!-- 										┌>자바스크립트도 자바와 같이 .연산자로 클래스에 접근하고 자원에 접근한다. -->
+<button onclick="javascript:account(document.getElementById('f_gugudan').txtStart.value
+								   ,document.getElementById('f_gugudan').txtEnd.value)">구구단 보기</button>
+</form>
+</body>
+</html>

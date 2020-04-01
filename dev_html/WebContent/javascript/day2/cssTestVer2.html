@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jquery로 css도 따로 처리가 가능하다.</title>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+	var jquery = jQuery.noConflict();  //$를 사용하지 않고 jquery를 사용해서 처리하자.
+</script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"></script> <!-- 버전을 나누어서 관리하자. -->
+<script type="text/javascript">
+	var j1 = jQuery.noConflict();  //jquery가 1.9.1번전을 가지고 처리할 것이다. - 같은 제이쿼리에서 여러버전으로 사용하면 충돌을 방지할 수 있다.
+</script>
+<style type="text/css">
+	.high-light{background: yellow;}
+	.high-light-0{background: red;}
+	.high-light-1{background: orange;}
+	.high-light-2{background: yellow;}
+	.high-light-3{background: green;}
+	.high-light-4{background: blue;}
+</style>
+</head>
+<body>
+<h1>item - 0</h1>
+<h1>item - 1</h1>
+<h1>item - 2</h1>
+<h1>item - 3</h1>
+<h1>item - 4</h1>
+<script type="text/javascript">
+/* 	jquery(document).ready(function(){
+		//$("h1").addClass('high-light');
+		jquery('h1').each(function(index,item){
+			jquery(this).addClass('high-light-'+ index);	//, 대신 +로 한다.
+		})
+	}); */
+	j1(document).ready(function(){
+		//$("h1").addClass('high-light');
+		j1('h1').each(function(index,item){
+			j1(this).addClass('high-light-'+ index);	//, 대신 +로 한다.
+		})
+	});
+</script>
+<input type="text" id="mem_id" value="tomato"/>
+<script type="text/javascript">
+	alert(jquery('mem_id').val());
+</script>
+</body>
+</html>

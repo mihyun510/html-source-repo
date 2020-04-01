@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Jquery 이벤트 처리하기</title>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<style type="text/css">
+	*{
+		margin: 0px; padding: 0px;
+	}
+	div{
+		margin: 5px; padding: 3px;
+		border: 3px solid black;
+		border-radius: 20px; /* 선의 끝을 둥글게 나타내자. */
+	}
+	
+</style>
+</head>
+<body>
+<script type="text/javascript">
+	$(document).ready(function(){
+		//이벤트 연결합니다.
+		$('div').click(function(){ //onClick에서 on만 빼면 표준 이벤트와 동일.
+			//변수선언 가능
+			var header = $(this).find('h1').text(); //Header 1 여기서 this는 자기자신이 가리키는 태크 즉 div 
+			var paragraph = $(this).find('p').text();
+			alert(header + '\n' + paragraph);
+		})
+	});
+</script>
+	<div>
+		<h1>Header 1</h1>
+		<p>Paragraph</p>
+	</div>
+	<div>
+		<h1>Header 2</h1>
+		<p>Paragraph</p>
+	</div>
+	<div>
+		<h1>Header 3</h1>
+		<p>Paragraph</p>
+	</div>
+</body>
+</html>
