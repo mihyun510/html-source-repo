@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Date객체 - 날짜와 시간을 다루는 객체이다.</title>
+<script type="text/javascript">
+	function showtime() {
+		var today = new Date(); //120..?
+		alert(today.toLocaleString()); //대안방안 - 120을 오늘 날짜나오게 변환시키
+		var year = today.getYear(); //년
+		var month = today.getMonth()+1; //월 0~11까지만 나온다. 
+		var day = today.getDate(); //날짜를 가저온다.
+		alert(year+"\n"+month+"\n"+day);
+		var temp = today.toLocaleString();
+		//window.status = temp; //상태바를 사용하자 but crome은 상태바를 지원x
+		document.getElementById("d_msg").innerHTML = temp;  
+		return temp;
+	}
+</script>
+</head>
+<body>
+	<div id="d_msg"></div> <!-- d_msg가 script위에 있어야된다. 아니면 찾을수가 없어서 출력이되지 않아요. -->
+<!-- <body onLoad="showtime()"> -->
+<script type="text/javascript">
+	var temp = showtime();
+	alert("함수호출:"+temp);
+	location.href="a.html?time="+new Date().getTime(); //페이지를 이동할때 테스트하기 좋은 코드.
+</script>
+</body>
+</html>

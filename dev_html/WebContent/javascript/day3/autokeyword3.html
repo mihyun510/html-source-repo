@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>자동완성기능</title>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<style type="text/css">
+	div#d_result{
+		margin-left:45px;
+		position : absolute; /* 처음 0,0을 기준으로 좌푯값을 변경한다. */
+	}
+	.listIn{
+		background: red;
+	}
+	.listOut{ /* 마우스가 밖으로 나갔을때 */
+		background: yellow;
+	}
+</style>
+<script type="text/javascript">
+	var word = $("#keyword");
+	function account(keyword) {
+		//alert("keyword: "+keyword);
+	}
+	function showMethod() {
+		alert("data:"+data);
+		$("#d_result").css("width",167+"px");
+		$("#d_result").css("top",$("#keyword").offset().top+$("#keyword").offset().height+"px");
+		$("#d_result").css("left",$("#keyword").offset().left+"px");
+		$("#d_result").css("backgroundColor","#CCFFFF");
+		$("#d_result").css("border","3px solid #000000");
+		$("#d_result").html(data);
+	}
+	function clearMethod() {
+		$("#d_result").css("backgroundColor","#FFFFFF");
+		$("#d_result").css("border","none");
+		$("#d_result").html("");
+	}
+</script>
+</head>
+<body>
+<script type="text/javascript">
+	$(document).ready(function(){
+		//$("#d_result").hide(); //div를 숨기자.
+	});
+</script>
+	<div id="d_result"></div><!-- 외부에서 어떤 검색어가 들어오면 들어와야될 테이블 자리 -->
+	검색: <input type="text" id="keyword" name="keyword" size="20" onkeyup="showMethod()">
+	<!-- <button onclick="javascript:$('#d_result').show()">보여줘</button> onclick과 같은 이벤트처리 속성값으로 javascript를 작성해도 된다. -->
+	<button onclick="showMethod()">보여줘</button> 
+	<button onclick="clearMethod()">지워줘</button> 
+</body>
+</html>

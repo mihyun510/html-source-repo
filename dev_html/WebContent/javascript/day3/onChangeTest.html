@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>글자길이 제한두기, 선택박스 사용해보기</title>
+<script type="text/javascript">
+	function check(user){
+		if(user.value.length > 4){
+			alert("입력가능한 최대 글자수는 4자 입니다.");
+			user.value ="";
+		}
+	}
+	
+	function check2(sel){
+		alert("당신이 선택한 메뉴는"+sel.value);
+	}
+	
+</script>
+</head>
+<body>
+<!-- 
+	select, text, textarea 등에서 객체의 내용을 변경한 후 포커스를 잃을 때 호출한다.
+ -->
+onchange입력: <input type="text" id="mem_name" name="mem_name" size="20" onchange="check(this)"><!-- onchange은 모두입력되고 엔터치고 포커스가 잃으면 이벤트 실행. -->
+onkeyup입력: <input type="text" id="mem_name" name="mem_name" size="20" onkeyup="check(this)"><!-- onkeyup은 입력할때마다 이벤트가 실행된다. - 네이버의 검색창에서 자동완성 기능에서 적절하다. -->
+	<hr>
+	<select id="menu" name="menu" onchange="check2(this)">김밥<!-- 선택했을때 실행, check2(this)는 셀렉트의 객체가되고 여기서 this는 텍스트의 객체이다. -->
+		<option value="김밥">김밥</option>
+		<option value="떡볶이">떡볶이</option>
+		<option value="돈까스">돈까스</option>
+		<option value="냉면">냉면</option>
+		<option value="된장찌개">된장찌게</option>
+	</select>
+</body>
+</html>

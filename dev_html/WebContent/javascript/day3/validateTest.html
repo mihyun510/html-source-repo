@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!-- 
+	html -> javascript
+	
+	javascript -> jquery, vue, react.......표준은 아니다.
+	만일 저 중에 지원을 안하는 부분이 있을 때, 버그가 있는 경우에는 
+	표준이 답이다. - 즉, 결국 표준과 같이 사용해야된다.
+ -->
+<html>
+<head>
+<meta charset="UTF-8">
+<title>영,한글만 입력하세요 이벤트 처리하기.</title>
+<script type="text/javascript">
+ 	function validate(p_input) { //오haha
+ 		alert("들어옴?");
+		var valid ="abcdefghijkelmnopqrstuvwxyz0123456789";
+		var ok = "yes";
+		var temp;
+		for(var i=0; i<p_input.value.length; i++){
+			temp = ""+p_input.value.substring(i,i+1); //입력받은 값을 다시 변수에 한글자씩 담기 그래서 그 글자가 영문자와 숫자인지 if문으로 검사.
+			if(valid.indexOf(temp) == -1) ok = "no"; //찾다가 없으면 -1를 반환하는데 -1이면 ok변수에 no을 대입한다.
+		}
+			if(ok == "no"){
+				alert("영문자와 숫자만 입력할 수 있어요.");
+				p_input.value="";
+				p_input.focus();
+			}
+		alert(ok);
+	} 
+</script>
+</head>
+<body>
+<form id="f_login" method="get" action="arrayTest.html">
+	아이디 : <input type="text" id="mem_id" name="mem_id" onblur="validate(this)">
+	<br>
+	<button onclick="document.getElementById('f_login').submit();">로그인</button>
+</form>
+</body>
+</html>

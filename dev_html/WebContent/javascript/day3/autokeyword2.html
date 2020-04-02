@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>자동완성기능</title>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<style type="text/css">
+	div#d_result{
+		margin-left:45px;
+		position : absolute; /* 처음 0,0을 기준으로 좌푯값을 변경한다. */
+	}
+	.listIn{
+		background: red;
+	}
+	.listOut{ /* 마우스가 밖으로 나갔을때 */
+		background: yellow;
+	}
+</style>
+<script type="text/javascript">
+	var word = $("#keyword");
+	function account(keyword) {
+		//alert("keyword: "+keyword);
+	}
+	function showMethod() {
+		$.ajax({
+			method:"get"
+			,url:"../../json/dept.json" //오라클과 연계해서 가져온 것
+			,dataType:"json" //화면이 들어온다.
+			,success:function(data){
+				alert("data:"+data);
+				//json은 스타일이 필요 없다.
+				/* 지도서비스를 이용해서 위치를 알려준다거나 마커를 찍어줄때는 json파일로 가져와야된다. */
+				var result = JSON.stringify(data); //json의 파일의  스트링타입을 가져온다. - 여기까지는 구조체 즉, 덩어리로 보여진다. json파일 내용 덩어리로 보여짐.
+				var jsonDoc = JSON.parse(result); // 위의 json파일 덩어리에서 한번 더 parsing을 해서 데이터를 가져와야된다. 다시 오브젝트타입으로 보여진다.
+				alert("result: "+result);
+				alert("jsonDoc: "+jsonDoc[2].loc); //배열에담긴 값줄 특정 컬럼을 가져오자.
+				for(var i=0; i<jsonDoc.length; i++){
+					$("#d_result").text(jsonDoc[i].deptno+", "+jsonDoc[i].dname+", "+jsonDoc[i].loc); //화면 텍스트 창에다가 보여주자.
+				}
+				
+				
+			}
+			,fail:function(xhrObject, txtStatus){
+				alert(txtStatus+","+xhrObject.responseText);
+			}
+		});
+	}
+	function clearMethod() {
+		$("#d_result").css("backgroundColor","#FFFFFF");
+		$("#d_result").css("border","none");
+		$("#d_result").html("");
+	}
+</script>
+</head>
+<body>
+<script type="text/javascript">
+	$(document).ready(function(){
+		//$("#d_result").hide(); //div를 숨기자.
+	});
+</script>
+	<div id="d_result"></div><!-- 외부에서 어떤 검색어가 들어오면 들어와야될 테이블 자리 -->
+	검색: <input type="text" id="keyword" name="keyword" size="20" onkeyup="showMethod()">
+	<!-- <button onclick="javascript:$('#d_result').show()">보여줘</button> onclick과 같은 이벤트처리 속성값으로 javascript를 작성해도 된다. -->
+	<button onclick="showMethod()">보여줘</button> 
+	<button onclick="clearMethod()">지워줘</button> 
+</body>
+</html>
