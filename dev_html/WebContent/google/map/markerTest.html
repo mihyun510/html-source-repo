@@ -25,19 +25,30 @@
     <script>
       var map;
       var marker; /* 원하는 위치에 마커를 찍어보자. */
+      var infowindow;
       function initMap() {
       	var curLating = {lat: 37.478666, lng: 126.878659},
         map = new google.maps.Map(document.getElementById('map'), {
         	//월드메르디앙2차 - 37.478666, 126.878659
-          center: curLating,  
+          center: curLating,  /* 경도와 위도를 지정해서 그 위치에 마커가 찍히도록 해봄 */
           zoom: 15
         });
         /* 지도에 마커를 찍자. */
         marker = new google.maps.Marker({ /* 한국소트트웨어 인재개발원 위치에 마커찍기. */
-        	position: curLating,
+        	position: curLating, 
         	map: map,
         	title: '한구소프트웨어인재개발원'
         });
+      	var sample = "<div><h2>교육센터위치</h2><p>내용처리</p>";
+      		sample += "<a href='https://www.naver.com'>링크</a></div>";
+      	infoWindow = new google.maps.InfoWindow({
+      		content:sample /* 마크를 클릭하면  sample의 내용이 말풍선에 담김 */
+      		,maxwidth: 300 /* 말풍선의 크기 */
+      	});
+      	//addListener(instance:소스, eventName, handler:처리함수)
+      	google.maps.event.addListener(marker, 'click', function(){
+      		infoWindow.open(map, marker); /* infoWindow는 구글에서 제공하는 API객체 map의 marker을 열어주세요. */
+      	});
       }
     </script>
     <!-- 

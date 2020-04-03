@@ -1,0 +1,32 @@
+[
+	{
+		lng: 126.8824997,
+		res_photo: "chicken.jpg",
+		res_name: "둘둘치킨",
+		lat: 37.4798346
+	},
+	{
+		lng: 126.927845,
+		res_photo: "tanghwa.png",
+		res_name: "탕화쿵부 마라탕 신림점",
+		lat: 37.48374
+	},
+	{
+		lng: 126.931258,
+		res_photo: "namgogip.png",
+		res_name: "남고집 신림본점",
+		lat: 37.484923
+	},
+	{
+		lng: 126.936656,
+		res_photo: "nihwa.png",
+		res_name: "니와스시",
+		lat: 37.468692
+	},
+	{
+		lng: 126.929706,
+		res_photo: "namjadack.png",
+		res_name: "나는 남자닭",
+		lat: 37.486653
+	}
+]

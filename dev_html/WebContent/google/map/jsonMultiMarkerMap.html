@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>json파일 테스트하기 - json포맷으로 출력하기</title>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAArsLlaumdnutPr1i_GHpyeXthUwh-_MA"></script> <!-- 키값이 존재해야지 맵으로 실행가능 -->
+</head>
+<body>
+	<div id="d_map" style="width:800px; height:600px;"></div>
+	<script type="text/javascript">
+		var map = new google.maps.Map(document.getElementById('d_map'),{
+			zoom: 14 
+			,center: new google.maps.LatLng(37.4798346,126.8824997) //위도 경도 값을 설정 - 첨음 디폴트 위치 설정.
+			,mapTypeId: google.maps.MapTypeId.ROADMAP //ROADMAP으로 지도로 보는 것 - 처음에 로드맵으로 지도맵 보이기
+			//,mapTypeId: google.maps.MapTypeId.SATELLITE //처음에 위성으로 맵이 보이기
+		});
+		var infowindow = new google.maps.InfoWindow(); //말풍선 클래스 사용.
+		var marker; //마커가 5개가 출력이 되어야됨. 
+		var i; //마커 생성시 부여한 인덱스값
+		$.ajax({
+			url: 'jsonMapList.jsp'
+			,dataType: 'json'
+			,success:function(data){
+				//$("#d_map").text(data);
+				/* insert here -데이터를 오브젝트가 아닌 String값으로 받아오기 */
+				var result = JSON.stringify(data); //값이 덩어리로 들어있음.
+				//$("#d_map").text(result); 
+				var jsonDoc = JSON.parse(result); //값을 파싱해온다. - 데이터 한개씩 배열방 한칸에 담기
+				for(var i = 0; i<jsonDoc.length; i++){
+					//alert(jsonDoc[i].res_name);
+					marker = new google.maps.Marker({
+						id:i
+						,position: new google.maps.LatLng(jsonDoc[i].lat, jsonDoc[i].lng)// 마커를 여러개 찍을거임
+						,map: map
+						,title: jsonDoc[i].res_name
+					});
+					google.maps.event.addListener(marker, 'click',(function(marker,i){ //마커 클릭하면 이벤트 발생
+						return function(){
+							infowindow.setContent('<b>'+jsonDoc[i].res_name+'</b>'); //infowindow:마커처리할때 말풍선 클래스, setContent(내용)
+							infowindow.open(map,marker);
+						} //end of 반환함수
+					})(marker, i));
+					if(marker){ //자바스크립트에서는 0이 아니면 모두  true 마커가 오브젝트를 가지고 있어도 트루임. 이 문장이 맞는 표현임
+						marker.addListener('click', function(){
+							map.setZoom(15); //마커를 클릭하면 확대되는 느낌을  줌
+							map.setCenter(this.getPosition()); //클릭하면 클릭한 마커의 위치로 센터를 맞추자.
+						})
+					}
+				}////end of for
+			}
+		});
+	</script>
+</body>
+</html>

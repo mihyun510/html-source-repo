@@ -101,9 +101,6 @@ public class DBConnectionMgr {
 	public void freeConnection(Connection con, CallableStatement cstmt) {
 		try {
 			//사용자원의 생성 역순으로 반환할것.
-			if(rs!=null) {
-				rs.close();
-			}
 			if(cstmt!=null) {
 				cstmt.close();
 			}
@@ -118,9 +115,6 @@ public class DBConnectionMgr {
 	public void freeConnection(Connection con,PreparedStatement pstmt) {
 		try {
 			//사용자원의 생성 역순으로 반환할것.
-			if(rs!=null) {
-				rs.close();
-			}
 			if(pstmt!=null) {
 				pstmt.close();
 			}
