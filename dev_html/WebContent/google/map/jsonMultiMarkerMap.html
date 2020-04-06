@@ -5,48 +5,75 @@
 <title>json파일 테스트하기 - json포맷으로 출력하기</title>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.js"></script>
+<!-- 구글이 제공하는 Map서비스를 사용하기 위해서 키가 필요하다. 그 키를 여기에 추가 -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAArsLlaumdnutPr1i_GHpyeXthUwh-_MA"></script> <!-- 키값이 존재해야지 맵으로 실행가능 -->
 </head>
 <body>
 	<div id="d_map" style="width:800px; height:600px;"></div>
 	<script type="text/javascript">
-		var map = new google.maps.Map(document.getElementById('d_map'),{
-			zoom: 14 
+		var map = new google.maps.Map(document.getElementById('d_map'),{//구글에서 제공해주는 클래스 사용하기 위해서 인스턴스화함
+			zoom: 14 //맵의 크기를 정함.
+			//전제지도의 중심위치를 결정.
 			,center: new google.maps.LatLng(37.4798346,126.8824997) //위도 경도 값을 설정 - 첨음 디폴트 위치 설정.
+			//지도의 처음 화면을 로드맵으로 설정
 			,mapTypeId: google.maps.MapTypeId.ROADMAP //ROADMAP으로 지도로 보는 것 - 처음에 로드맵으로 지도맵 보이기
-			//,mapTypeId: google.maps.MapTypeId.SATELLITE //처음에 위성으로 맵이 보이기
+			//,mapTypeId: google.maps.MapTypeId.SATELLITE //처음에 위성으로 맵이 보이기 
 		});
-		var infowindow = new google.maps.InfoWindow(); //말풍선 클래스 사용.
-		var marker; //마커가 5개가 출력이 되어야됨. 
+		//태그의 팝업창 사용			┌>default 패키지를 사용하지 않겠다. 보완에 아주 취약하다. 즉, google.maps의 패키지안에 존재하는 팝업클래스를 사용한다.
+		var infowindow = new google.maps.InfoWindow(); //말풍선 클래스 사용. 말풍선을 클릭했을 떄 열리는 창 = InfoWindow() 객체
+		//마커를 사용
+		var marker; //마커가 5개가 출력이 되어야됨.(이 5개의 값은 json에서 읽어와야된다[스캔] - jsonMapList.jsp)
+		//여러개의 마커를 사용하기 위한 인덱스값을 부여하기 위한 변수
 		var i; //마커 생성시 부여한 인덱스값
 		$.ajax({
-			url: 'jsonMapList.jsp'
-			,dataType: 'json'
-			,success:function(data){
-				//$("#d_map").text(data);
+			url: 'jsonMapList.jsp' //서버에 요청
+			,dataType: 'json' //데이터타입은 json
+///			//전송 전공했니? 어디에 있는데 데이터안에
+			,success:function(data){ //전송에 성공하면 함수를 실행하고 data는 전송에 성고하고 받은 응답결과 데이터 즉 json포맷 결과
+				//$("#d_map").text(data);[object Object]
 				/* insert here -데이터를 오브젝트가 아닌 String값으로 받아오기 */
+///				//Object의 data의 값을 string으로 꺼낼꺼야. - 직관적인 정보로 변환 직관적이긴 하지만 구조체이기떄문에 한개씩 자원을 꺼낼 수없음. 덩어리 개념이다.
 				var result = JSON.stringify(data); //값이 덩어리로 들어있음.
 				//$("#d_map").text(result); 
+//				//배열로 바뀐다. - 이제하나씩 꺼낼수 있다. 이제 배열.속성으로 접근이 가능하다
 				var jsonDoc = JSON.parse(result); //값을 파싱해온다. - 데이터 한개씩 배열방 한칸에 담기
-				for(var i = 0; i<jsonDoc.length; i++){
+				for(var i = 0; i<jsonDoc.length; i++){ //json의 정보갯수 만큼 for문이 돌고 
 					//alert(jsonDoc[i].res_name);
+					//배열.속성이름으로 꺼내야된다. 키값으로 꺼내야된다.
+					var src1="../../img/restorant/";
 					marker = new google.maps.Marker({
-						id:i
+						//각각의 마커가 가지고 있는 인덱스
+						id:i//0,1,2,3,4 - 인덱스값. 하나하나가 마커의 인덱스 정보.
+						//포지션값도 배열로 변경된다.
+						//                                  위도                          경도
 						,position: new google.maps.LatLng(jsonDoc[i].lat, jsonDoc[i].lng)// 마커를 여러개 찍을거임
+						//맵에다가 마커 찍어줘
+						//지도는 map하나임
 						,map: map
+						//마커가 5개이므로 식당이름 5개로 분류
+						//             식당이름
 						,title: jsonDoc[i].res_name
 					});
+					//마커 5개가 for문 안에서 객체 생성되니까 이벤트도 안에서 건다.
+					//                            마커         클릭하면        함수가 실행됨. 클릭된 마커, 그 마커의 인덱스
 					google.maps.event.addListener(marker, 'click',(function(marker,i){ //마커 클릭하면 이벤트 발생
-						return function(){
-							infowindow.setContent('<b>'+jsonDoc[i].res_name+'</b>'); //infowindow:마커처리할때 말풍선 클래스, setContent(내용)
-							infowindow.open(map,marker);
+						//addListener 함수의 리턴값이 변수가 아닌 함수임.
+						//함수의 결과는 윈도우 창을 열어줌.(click된 마커마다 다르게)
+						return function(){ //이벤트 함수의 반환함수 클릭할때마다 컨텐츠를 만들어준다. 그 컨텐츠는 말풍션을 오픈해준다.
+							infowindow.setContent('<b>'+jsonDoc[i].res_name+'</b>'
+									+"<b><img src="+src1+jsonDoc[i].res_photo+"></b>"); //infowindow:마커처리할때 말풍선 클래스, setContent(내용)
+							infowindow.open(map,marker); //마커의 말풍선을 연다.
 						} //end of 반환함수
-					})(marker, i));
+					})(marker, i)); //(marker, i)는 뭐지...?
+					//마커를 생성했을때 click이벤트 처리하기위한 코드
+					//마커가 0이아니고 가리키는 것이 있다면
 					if(marker){ //자바스크립트에서는 0이 아니면 모두  true 마커가 오브젝트를 가지고 있어도 트루임. 이 문장이 맞는 표현임
-						marker.addListener('click', function(){
+						marker.addListener('click', function(){ //클릭이 되었을떄
+							//상세보기 처리를 해주고
 							map.setZoom(15); //마커를 클릭하면 확대되는 느낌을  줌
+							//중앙의 위치를 마커가 가리키는 위치로 고정해준다.
 							map.setCenter(this.getPosition()); //클릭하면 클릭한 마커의 위치로 센터를 맞추자.
-						})
+						});
 					}
 				}////end of for
 			}

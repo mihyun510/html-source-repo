@@ -23,7 +23,8 @@ public class WebCrawling {
 			}
 			System.out.println(sb.toString());
 			br.close();
-			//크롤링 시작 - 키(타이틀)가져오기 : 클롤링을 하여 태그에 접근하기.
+			//크롤링 시작 - 키(타이틀)가져오기 : 클롤링을 하여 태그에 접근하기., 파이선을 더 많이 사용한다 이 코드는 매우 무식한 방식.
+			//n건을 조회하는 것.
 			List<String> titleList = new ArrayList<String>();
 			String strs[] = sb.toString().split("<th>");
 			for(int i =0;i<strs.length;i++) {

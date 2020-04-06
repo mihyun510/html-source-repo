@@ -11,5 +11,8 @@
 	List<Map<String, Object>> mrList = rDao.mapRestList();
 	Gson g = new Gson();
 	String imsi = g.toJson(mrList);
+	//json 타입으로 결과를 확인 - json으로 포맷을 해야지 자바스크립트에서 데이터를 뽑아올 수 있다. 아니면 데이터를 뽑아올 수 없음. 주의.
 	out.print(imsi);
+	//json을 사용하지 않고 그냥 자바의 결과를 확인
+	//out.print(mrList);
 %>

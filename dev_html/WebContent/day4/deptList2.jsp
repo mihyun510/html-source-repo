@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" 
-	pageEncoding="UTF-8"%> <!-- jsp를 사용하기 위한 코드 필수. 확장자는 jsp이지만 html로 취급받는다. 소스보기 하면 thml소스코드만 보이고 자바코드는 모두 빠진다. -->
+	pageEncoding="UTF-8"%> <%-- jsp를 사용하기 위한 코드 필수. 확장자는 jsp이지만 html로 취급받는다. 소스보기 하면 thml소스코드만 보이고 자바코드는 모두 빠진다. --%>
 <!DOCTYPE html>
 <html>
 <head>

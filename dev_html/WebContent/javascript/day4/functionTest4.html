@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<!-- 
+	함수의 리턴타입이 변수가 아닌 또하나의 함수일때 어떻게 동작하는지를 관찰해보자.
+ -->
+<script type="text/javascript">
+	function methodA(a){
+		//바로 리턴을 하는 것이아니라 변수에 함수의 값을 따로 저장하고 그 값을 리턴해주어도 가능하다.
+		var output = function(b){
+			document.write("methodA====> 변수출력:"+a+"변수출력 return 함수: "+b); 
+		}//end of return function이 종료
+		return output;
+	}//{}는;를 안찍음    end of methodA
+	methodA(15)(7); //함수의 리턴타입이 또하나의 함수이면 이와같은 함수호출의 모양새가 합법이다.
+</script>
+</body>
+</html>

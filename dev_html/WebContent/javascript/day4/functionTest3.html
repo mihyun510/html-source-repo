@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<!-- 
+	함수의 리턴타입이 변수가 아닌 또하나의 함수일때 어떻게 동작하는지를 관찰해보자.
+ -->
+<script type="text/javascript">
+	function methodA(a){
+		return function(){
+			document.write("methodA====> 변수출력:"+a);
+		}//end of return function이 종료
+	}//{}는;를 안찍음    end of methodA
+	methodA(5)();
+</script>
+</body>
+</html>
