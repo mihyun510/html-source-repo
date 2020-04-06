@@ -60,8 +60,8 @@
 						//addListener 함수의 리턴값이 변수가 아닌 함수임.
 						//함수의 결과는 윈도우 창을 열어줌.(click된 마커마다 다르게)
 						return function(){ //이벤트 함수의 반환함수 클릭할때마다 컨텐츠를 만들어준다. 그 컨텐츠는 말풍션을 오픈해준다.
-							infowindow.setContent('<b>'+jsonDoc[i].res_name+'</b>'
-									+"<b><img src="+src1+jsonDoc[i].res_photo+"></b>"); //infowindow:마커처리할때 말풍선 클래스, setContent(내용)
+							infowindow.setContent('<h2>'+jsonDoc[i].res_name+'</h2>'
+									+"<b><img src="+src1+jsonDoc[i].res_photo+" width='50' height='40'></b>"); //infowindow:마커처리할때 말풍선 클래스, setContent(내용)
 							infowindow.open(map,marker); //마커의 말풍선을 연다.
 						} //end of 반환함수
 					})(marker, i)); //(marker, i)는 뭐지...?
