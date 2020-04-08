@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>hover 이벤트</title>
+<style type="text/css">
+	.reverse{
+		background: black;
+		color: red;
+	}
+</style>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+	<h1>Hello</h1>
+	<h1 id='h100'>World</h1>
+	<h1>~!!</h1>
+	<script type="text/javascript"> //컴파일을 하지않아서 에러를 알려주지않음 . 오타에 조심하기
+	//DOM 구성이 완료 되었을 때 (h1태그가 인지된 후)
+	//		document: 모든 태그를 접근하는 내장객체, ready(): DOM구성이 완료되었을떄 
+		$(document).ready(function(){
+			//이벤트 연결
+			//on(): 파라미터에 이벤트이름과 함께 전달을 해야됨.
+			$('h1').on('click', function(){
+				$(this).html(function(index, html){
+					return html + '&';
+				});
+			});
+			//
+			$('h1').on({
+				mouseenter: function(){$(this).addClass('reverse');}
+				,mouseleave: function(){$(this).removeClass('reverse');}
+			});
+		});//end of ready
+	</script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>hover 이벤트</title>
+<style type="text/css">
+	.reverse{
+		background: black;
+		color: red;
+	}
+</style>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+	<h1>Hello</h1>
+	<h1 id='h100'>World</h1>
+	<h1>~!!</h1>
+	<script type="text/javascript"> //컴파일을 하지않아서 에러를 알려주지않음 . 오타에 조심하기
+	//DOM 구성이 완료 되었을 때 (h1태그가 인지된 후)
+	//		document: 모든 태그를 접근하는 내장객체, ready(): DOM구성이 완료되었을떄 
+		$(document).ready(function(){
+			//이벤트 연결
+			$('h1').hover(function(){
+			// this는 h1 자기자신 태그, ┌> reverse라는 클래스를 style에서 정의해줌
+				$(this).addClass('reverse'); //addClass(클래스 이름): 클래스를 가져온다				
+			}, function(){ //다른 h1으로 이동을 하면 위의 실행문을 배제한다. - 즉 한번더 이벤트가 일어나면 또다른 함수를 호출한다.
+				$(this).removeClass('reverse'); ///.........? if문 같은 느낌인가....?
+			});//end of hover
+		});//end of ready
+	</script>
+</body>
+</html>

@@ -5,10 +5,15 @@
 <title>Insert title here</title>
 </head>
 <body>
-<script type="text/javascript">
-	(function(){
+<script type="text/javascript"> //변수 선언, 함수선언, 함수호출 가능 땅.
+	function test(){ // 실행이 바로 안되는 함수 - 호출을 해야 실행가능
+		alert("Test 실행문");
+	}
+	test(); //함수호츨해야지 실행됨.
+	(function(){ //바로 실행이 되는 함수 - 익명 함수는 바로 실행이 가능.
 		document.write("실행문");
 	})();
 </script>
+	<!-- test(); //여기서 호출하게 되면 함수는 호출되지 않음. HTML은 컴파일을 하지 않는다.script안에서 호출해야된다.-->
 </body>
 </html>

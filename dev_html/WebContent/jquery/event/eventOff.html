@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>해당 문서 객체와 관련된 모든 이벤트 제거하기</title>
+<!-- $is not define.....jquery 임포트를 안했을 때 생기는 에러. -->
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+	<h1>Hello</h1> <!-- 클릭하면 클릭이 찍힘. -->
+	<h1>World</h1>
+	<h1>~!!</h1>
+<script type="text/javascript">
+	$(document).ready(function(){
+		alert("DOM구성이 완료되었을 때");
+		$('h1').dblclick(function(){ 
+			alert("더블클릭 이벤트 감지");
+		});
+		$('h1').click(function(){
+			alert("click 이벤트 발생 감지");
+			//this = h1
+			$(this).html('클릭');//text():innerText , html():innerHTML - ajax에서 활용
+			//off('click') => click만 죽이겟다. 모든 이벤트를 제거하지 않고 특정 이벤트만 제거하고 싶다.
+			$(this).off('click'); //해당 문서 객체와 관련된 모든 이벤트 제거. - 한번만 이벤트가 감지되게 함.
+		}); ///end of click
+	});
+</script>
+</body>
+</html>
