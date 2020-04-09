@@ -14,7 +14,7 @@ public class DBConnectionMgr {
 	//이 클래스를 읽어야 오라클 제품인것을 확인가능함
 	public static final String _DRIVER = "oracle.jdbc.driver.OracleDriver";//oracle.jdbc.driver패키지이름
 	//물리적으로 떨어져 있는 오라클 서버에 URL정보 추가 //여기 컴퓨터가 켜져있어야 접근가능,orcl11 sd아이디?
-	public static final String _URL = "jdbc:oracle:thin:@192.168.0.15:1521:orcl11"; //서버가 이전하면 ip주소가 바뀜 -> 나 자신의 ip말고 
+	public static final String _URL = "jdbc:oracle:thin:@192.168.0.21:1521:orcl11"; //서버가 이전하면 ip주소가 바뀜 -> 나 자신의 ip말고 
 	//계정이 있어야 게임서버에 접속가능, 사원이 퇴사하면 바꿔야 되니 final은 아님
 	public static String _USER = "scott";
 	public static String _PW = "tiger"; //오라클 회사에서 만들어서 제공해주는 driver임. 오라클 서버에 접근하기 위한 사전준비 코드

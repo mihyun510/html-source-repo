@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <!-- 
 	html -> javascript
-	
 	javascript -> jquery, vue, react.......표준은 아니다.
 	만일 저 중에 지원을 안하는 부분이 있을 때, 버그가 있는 경우에는 
 	표준이 답이다. - 즉, 결국 표준과 같이 사용해야된다.
@@ -9,10 +8,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>영,한글만 입력하세요 이벤트 처리하기.</title>
+<title>아이디 유효검사</title>
 <script type="text/javascript">
  	function validate(p_input) { //P_input:사용자가 입력한 id값, 오haha
- 		alert("들어옴?");
 		var valid ="abcdefghijkelmnopqrstuvwxyz0123456789";
 		var ok = "yes";
 		var temp;
@@ -31,9 +29,10 @@
 </head>
 <body>
 <form id="f_login" method="get" action="arrayTest.html">
-	아이디 : <input type="text" id="mem_id" name="mem_id" onblur="validate(this)"> <!-- onblur: 초점이 벗어나면 이벤트발생, Client -->
-	<br>																		 <!-- Tomcat서버 안에 화면에 나타낼 페이지를 배포해놓아야됨. request:요청하는 내장객체 -->
-	<button onclick="document.getElementById('f_login').submit();">로그인</button> <!-- Event(1. 요청을 한다.) 버튼을 누르면 이벤트처리 값의 전달. 이벤트에 대한 답은 서버의 응답. -->
+	아이디 : <input type="text" id="mem_id" name="mem_id" onblur="validate(this)"> 
+	<br>																		 
+	<input type="submit" value="Login"> <!-- value="Login" 라벨의 이름 정하는 것? -->
+	<br>
 </form>
 </body>
 </html>

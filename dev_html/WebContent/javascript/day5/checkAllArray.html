@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>전체 선택 - checkbox</title>
+<script type="text/javascript">
+	function checkAll(size){ //select * from 테이블 -> list.size() -> 로우수
+		//전체 체크박스를 선택한거야?
+		if(document.f_rev.i_checkall.checked == 1){ //자바스크립트와 제이쿼리 없이 태그로 만들었으니 전체 document로 접근하고 해당 form 아이디로 접근하고 체크박스아이디로 접근
+			alert("전체 선택함");
+			for(i=0;i<size;i++){ //for문을 돌려서 선택된 크기만큼의 체크박스의 체크를 조작함.
+				//				┌>value값으로 접근? 아니면 name으로 접근?
+				document.f_rev.from[i].checked = 1; //checked = 1 이면 체크박스에 체크가 선택
+			}
+		}
+		//전체 체크박스를 해제했을 때
+		else{
+			alert("전체 선택 해제함");
+			for(i=0;i<size;i++){
+				document.f_rev.from[i].checked = 0;//checked = 0 이면 체크박스에 체크가 해제
+			}
+		}
+	}
+</script>
+</head>
+<body>
+<!-- 									┌> 이동할 페이지의 링크를 달면됨. -->
+	<form name="f_rev" method="get" action="#">
+		<table width=400px border="1" borderColor="green" >
+		<!--=====================헤더 영역====================-->
+			<thead>
+				<tr>
+					<!-- checkbox만들기 헤더에 생성해서 전체가 체크박스를 사용할 수 있게 함					┌>원래 디비에서 값을 가져온것을 넘겨야되지만 지금은 일단 임의로 3개로우만 넘김-->
+					<th><input type="checkbox" id="i_checkall" name="i_checkall" onClick="checkAll(3)"></th>
+					<th>no</th> <!-- th tag: 가운데 정렬됨 -->
+					<th>보낸이</th>
+					<th>보낸일자</th>
+				</tr>
+			</thead>
+		<!--=====================body 영역===================  -->
+			<tbody>
+				<tr>
+				<!-- ┌> 나중에 디비연동을 같이하면 for문을 사용하여 추가하면 됨. -->
+					<th><input type="checkbox" name="from" value="from1"></th><!-- id는 같은 값이 올 수 없으니 제거 -->
+					<td>1</td>
+					<td>이순신</td>
+					<td>2020-04-07</td>
+				</tr>
+				<tr>
+					<th><input type="checkbox" name="from" value="from2"></th>
+					<td>2</td>
+					<td>유재석</td>
+					<td>2020-04-08</td>
+				</tr>
+				<tr>
+					<th><input type="checkbox" name="from" value="from3"></th>
+					<td>3</td>
+					<td>강호동</td>
+					<td>202-04-09</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</body>
+</html>
