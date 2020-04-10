@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<style type="text/css">
+		.grid{
+			width: 500px;
+			margin: 0 auto;
+		}
+		.grid-item{
+			width:100px;
+			height:100px;
+			/*
+				block : 무조건  줄바꿈
+				inline: 한줄 정렬
+				inline-block: width와 height를 맞추면서 정렬 만일 폭을 넘어서면 다음줄로 넘어감.
+			*/
+			display: inline-block; /* 인라인 요소롤 블럭요소로 변경, 블럭은 무조건 줄바꿈이 됨. */
+			vertical-align: top; /* 일렬로 정렬 */
+		}
+		.grid-item.Map{ background-color:red; }
+		.grid-item.info{ background-color:orange; }
+	</style>
+</head>
+<body>
+	<div class="grid">
+		<div class="grid-item Map"></div>
+		<div class="grid-item info"></div>
+	</div>
+</body>
+</html>

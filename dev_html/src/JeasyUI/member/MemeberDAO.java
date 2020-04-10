@@ -67,6 +67,7 @@ public class MemeberDAO {
 		try {
 			//DBConnectionMgr 공통코드를 작성했으므로 드라이버명, 계정정보, orcl11[SID]생략
 			con = dbMgr.getConnection();
+			//							┌>리턴타입이 있는 경우에만 뭔가 받을 수 있다.? NO 리턴타입이 void여도 결과를 받을 수 있음. { call 프로시저이름(?) } (?)=sys_ref_cursor
 			cstmt = con.prepareCall("{ call proc_memberList(?) }"); //프로시저를 부르는 예약어 call 프로시저 이름 (매개번수 갯수에따른 ?추가)
 			cstmt.registerOutParameter(1, OracleTypes.CURSOR);
 			cstmt.execute(); //프로시저를 처리 요청 메소드 호출

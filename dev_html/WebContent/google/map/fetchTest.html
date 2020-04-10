@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div id="d_result"></div>
+<script type="text/javascript">
+	fetch('http://localhost:8000/google/map/jsonProcMapLsit.jsp')
+	.then((resp) => resp.json()) //json타입으로 응답받아서
+	.then(function(data){ //그 받은 응답은 data타입으로 담겨있음
+		//alert(data); //그것을 받아서 확인.
+		var result = JSON.stringify(data);
+		var jsonDoc = JSON.parse(result);
+		document.getElementById("d_result").innerText = result; //제이쿼리를 사용하지 않으니 표준문법으로 값을 가져오는 document.getElementById를 사용
+	});
+</script>
+</body>
+</html>

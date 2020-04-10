@@ -29,7 +29,7 @@
 			url: 'jsonMapList.jsp' //서버에 요청
 			,dataType: 'json' //데이터타입은 json
 ///			//전송 전공했니? 어디에 있는데 데이터안에
-			,success:function(data){ //전송에 성공하면 함수를 실행하고 data는 전송에 성고하고 받은 응답결과 데이터 즉 json포맷 결과
+			,success:function(data){ //전송에 성공하면 함수를 실행하고 data는 전송에 성공하고 받은 응답결과 데이터 즉 json포맷 결과
 				//$("#d_map").text(data);[object Object]
 				/* insert here -데이터를 오브젝트가 아닌 String값으로 받아오기 */
 ///				//Object의 data의 값을 string으로 꺼낼꺼야. - 직관적인 정보로 변환 직관적이긴 하지만 구조체이기떄문에 한개씩 자원을 꺼낼 수없음. 덩어리 개념이다.
@@ -61,6 +61,8 @@
 						//함수의 결과는 윈도우 창을 열어줌.(click된 마커마다 다르게)
 						return function(){ //이벤트 함수의 반환함수 클릭할때마다 컨텐츠를 만들어준다. 그 컨텐츠는 말풍션을 오픈해준다.
 							infowindow.setContent('<h2>'+jsonDoc[i].res_name+'</h2>'
+									+'<b>'+jsonDoc[i].res_addr+'</b><br>'
+									+'<b>'+jsonDoc[i].res_
 									+"<b><img src="+src1+jsonDoc[i].res_photo+" width='50' height='40'></b>"); //infowindow:마커처리할때 말풍선 클래스, setContent(내용)
 							infowindow.open(map,marker); //마커의 말풍선을 연다.
 						} //end of 반환함수
@@ -68,7 +70,7 @@
 					//마커를 생성했을때 click이벤트 처리하기위한 코드
 					//마커가 0이아니고 가리키는 것이 있다면
 					if(marker){ //자바스크립트에서는 0이 아니면 모두  true 마커가 오브젝트를 가지고 있어도 트루임. 이 문장이 맞는 표현임
-						marker.addListener('click', function(){ //클릭이 되었을떄
+						marker.addListener('click', function(){ //클릭이 되었을때
 							//상세보기 처리를 해주고
 							map.setZoom(15); //마커를 클릭하면 확대되는 느낌을  줌
 							//중앙의 위치를 마커가 가리키는 위치로 고정해준다.
