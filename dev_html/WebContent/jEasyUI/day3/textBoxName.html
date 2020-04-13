@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>id와 name의 [차이]속성 활용 - name 추가</title>
+	<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/color.css"> 
+	<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/demo/demo.css">
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="https://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
+	<style type="text/css">
+		div#d_msg{
+			position: absolute;
+			border: 1px solid black;
+			width: 200px;
+			height: 60;
+		}
+	</style>
+	<script type="text/javascript">
+		function test(){
+			//여기서 사용하는 값은 id값이다.
+			alert($("#tb_id").val()); //tb_id로 값을 읽어올수있나? - 잘 가져온다. 실제로 tb_id는 가지고 있으나 눈에 보이는 것은 아니다. easyui에서 지정한 id가 보여진다.
+		}
+		function send(){
+			//name은 jsp파일로 값을 넘겨줄수 잇다. 즉 서버가 읽는값.    ┌>id
+			location.href="textboxAction.jsp?tb_name="+$("#tb_id").val(); //여기서 사용하는 값은 name값이다.
+			//									└>jsp에서 name값을 받을 변수      
+		}
+	</script>
+</head>
+<body>
+	<!-- 	<span class="textbox" style="width: 173px;">
+		<input id="_easyui_textbox_input1" type="text" 
+			   class="textbox-text validatebox-text textbox-prompt" autocomplete="off" 
+			   tabindex="" placeholder="" style="margin: 0px; padding-top: 0px; 
+			   padding-bottom: 0px; height: 28px; line-height: 28px; width: 171px;">
+		<input type="hidden" class="textbox-value" value="">
+		</span> -->
+		<!-- 			┌>여기 네임이 없더라도 location.href="textboxAction.jsp?tb_name="+$("#tb_id").val();"에 name이들어가 있다. 그래서 없어도 된다. request.getParameter("tb_name");에 name의 값이 들어간다. -->
+	<input id="tb_id" name="tb_name" class="easyui-textbox" placeholder="아이디">
+	<button onclick="test()">클릭</button>
+	<button onclick="send()">전송</button>
+	<div id="d_msg"></div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#d_msg").hide(); //텍스트 필트 밑에 검은 메세지창[div]를 숨기자.
+			//onkeyup:키를 개체위에서 눌렀다가 뗏을때 발생한다. 커서를 찍는 것은 이벤트에 해당에 들어가지 않는다. 검색창 자동완성 기능.
+			//var t = $('#tt');//tt를 접근하는 t - 이렇게 쓸 필요x -> 바로 접근.=> $('#tt').textbox
+			$('#tb_id').textbox('textbox').bind('keyup', function(e){//keyup:easyui에서 제공하는 onkeyup
+				alert("keyup");
+			$("#d_msg").show();
+			//$("#d_msg").css("width",$("#tb_id").width+"px"); 실제적인 id값이 아니다. tb_id는 display:none으로 되어있다. - dom구성이 제거되어있어서 쓸수없는 id이다.
+			//$("#d_msg").css("width",171+"px"); 이렇게 일일히 크기를 주는 것은 정말 불편하다. - id로 접근해야된다. 그러니 span의 크기로 접근을 해야되고 id가 없다면 클래스로 접근을 해야된다. 
+			$("#d_msg").css("left",$("#_easyui_textbox_input1").offset().left+"px"); //class로 접근하자 id가 없다.
+			$("#d_msg").css("width",$(".textbox").width()+"px"); //class로 접근하자 id가 없다.
+			$("#d_msg").css("top",$("#_easyui_textbox_input1").offset().bottom+"px"); //class로 접근하자 id가 없다.
+			$("#d_msg").html("<b>결과처리</b>"); //태그가 포함되어 있다면 html()사용. - 안에 내용 추가하기
+			
+			});
+		});
+	</script>
+</body>
+</html>

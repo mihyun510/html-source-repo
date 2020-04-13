@@ -22,9 +22,9 @@
 			//insert here
     		//조회버튼이 눌렸을 때 데이터가 들어오도록 해봄
 			$("#dg_member").datagrid({
-				url:"../../json/dept.json"
+				url:"jsonMemberList.jsp"
 				,onDblClickRow: function(index, row){ 
-				 	alert("index:"+index+", row"+row+", row.loc:"+row.loc+", row.rno:"+row.rno+", row.dname:"+row.dname+", row.deptno:"+row.deptno);   
+				 	alert("index:"+index+", row"+row+", row.mem_no:"+row.mem_no+", row.mem_no:"+row.mem_no+", row.mem_name:"+row.mem_name+", row.mem_id:"+row.mem_id);   
 			   	}
 			   ,onLoadSuccess:function(data){ 
 				   //alert("dg_member loading success!!!");
@@ -34,17 +34,17 @@
 		}
 		function addList() {
 			alert("입력버튼 호출성공");
-			$("#dlg_memberINS").dialog('open').dialog('setTitle', '부서정보 추가');
+			$("#dlg_memberINS").dialog('open').dialog('setTitle', '회원정보 추가');
 		}
 		
 		function editList(){
 			alert("편집버튼 호출성공");
-			$("#dlg_memberUPD").dialog('open').dialog('setTitle', '부서정보 편집');
+			$("#dlg_memberUPD").dialog('open').dialog('setTitle', '회원정보 편집');
 		}
 		
 		function delList(){
 			alert("삭제버튼 호출성공");
-			$("#dlg_memberDEL").dialog('open').dialog('setTitle', '부서정보 삭제');
+			$("#dlg_memberDEL").dialog('open').dialog('setTitle', '회원정보 삭제');
 		}
 	</script>
 </head>
@@ -148,10 +148,10 @@
 				}]
 			   ,width: 700, height: 500
 			   ,columns:[[
-				   {field:'loc', title:'지역',width:100},
-				   {field:'rno', title:'번호',width:100},
-				   {field:'dname', title:'부서이름',width:100},
-				   {field:'deptno', title:'부서번호',width:100}
+				   {field:'mem_no', title:'번호',width:100},
+				   {field:'mem_id', title:'아이디',width:120},
+				   {field:'mem_name', title:'이름',width:150},
+				   {field:'mem_email', title:'이메일',width:200}
 			   ]]
 			   /* datagrid에 출력될 값(상수값 - 고정값) 
 			   ,data:[ //속성 : 함수(실행문), 만약 이 data문이 주석이 아니면 데이턴 onloadSuccess가 두번 나온다. 왜냐하면 첫번째 로딩된 후 두번째로 함수안에 url의 데이터가 로딩되기 때문이다.

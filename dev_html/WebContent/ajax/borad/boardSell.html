@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<!-- 
+	각 브라우저들은 부분 페이지 갱신을 위해서 모두 비동기 통신객체를 지원함.
+	XMLHTTPRequest
+	- 속성
+	- 함수
+ -->
+<html>
+<head>
+<meta charset="UTF-8">
+<title>마진금액 - ajax_기본표준형식으로 비동기통신하기</title>
+	<style type="text/css">
+		body{
+			font-family: sons-serif;
+			text-align: center;
+		}
+		table{
+			margin-left: auto; /* 마진주기 */
+			margin-right: auto;
+			border: 1px solid black;
+		}
+		td, th{
+			border: 1px dotted gray;
+			text-align: center;
+		}
+		th{
+			background-color: #FFAAAA;
+		}
+	</style>
+	<script type="text/javascript">
+		var xhrObject = null; //비동기 통신 객체 변수선언
+		//비동기연결 객체 생성하기 IE8.0이상, 사파리, 오페라, 크롬, 파이어폭스
+		function createRequest(){
+			try{
+				xhrObject = new XMLHttpRequest();
+			} catch(trymicrosoft) {
+				try{
+				xhrObject = new ActiveObject("Msxml2.XMLHTTP"); //비동기 통신을 생성 IE6.0 , ActiveObject지원x
+					
+				} catch (e) {
+					xhrObject = null;
+				}
+			}
+			if(xhrObject==null){ 
+				alert("비동기 통신 객체 생성 에러.");
+			}
+		}
+		/*
+		readyState: onreadystatechange에서 사용할 수 있는  HTTP요청 상태의 코드값이다.
+		
+		0(uninitialized):open 메소드가 호출되기 직전상태 이전상태 - 기본 0 open메소드 호출 전
+		1(loding) : HTTP요청에 대한 준비가 된 상태, 하지만 아직 보내지 않은 상태 -> send메소드 호출 직전 상태
+		2(loaded): HTTP요청을 보내어서 처리하고 있는 중. 헤더는 읽을 수 있는 상태
+		[get, post], http프로토콜에대한 버전 1.1 브라우저의 타입
+		3(interactive): 데이터를 받고 있는 중, 하지만 아직 완전히 받지는 못한 상태
+		4(complete): 데이터까지 완전히 받은 상태
+		비로서 responseText나 혹은 responseXML 속성으로 데이터를 읽을 수 있는 상태
+		status: HTTP상태코드를 숫자로 반환하는 속성 - ex)200, 404
+		statusText:  HTTP상태코드에 대한 문자열로 반환하는 속성 - ex)ok, Not Found
+		예를 들면 200, 304, 404, 405, 500 등등
+		405: 오타를 냈을 경우 생기는 오류페이지
+		*/
+		function getBoardSold(){ //버튼이 눌리면 실행
+			alert("getBoardSold 호출 성공");
+			//비동기통신객체생성
+			createRequest(); //xhrObject의 값을 null값이 들어가지 않게 함수를 호출해서 값을 생성해주자. - 아작스객체생성
+			var url = "boardAction.jsp"; //목적지 정보 기록
+			xhrObject.open("GET",url, true); //통신 전에 필요한 상수값을지정
+			//onreadystatechange:상태값이 0~4까지 있는데 상태값이 바뀔때마다 호출할 콜백 메소드[sold_process]를 지정함.
+			//onreadystatechange속성은 HTTP요청의 상태 변화에 따라 호출되는 이벤트 핸들러임.
+			//대입연산자 오른쪽은 상태 변화에 따라 호출될 함수 이름을 적는다.(괄호없음)
+			xhrObject.onreadystatechange = sold_process; //상태값이 바뀔때 콜백함수 이름을 먼저 등록을 해주어야된다. -콜백함수 : 내가 호출하는 것이 아니라 브라우저가 상태값이 변경될때마다 자기가 호출한다. 브라우저마다 값을 찍어주는 브라우저가 있거나 없는 브라우저가 있다.
+			//이때 서버로 전송이 일어남. 목적지는 boardAction.jsp 페이지임.
+			//				┌>get방식이라서 null을 넘긴다. post방식이면 여기에 데이터를 넘겨야된다.
+			xhrObject.send(null); //send함수에서 전송처리 - send 가 호출되었을 때 0~4의 카운터가 시작된다. 상태값 측정의 시작. - 그리고 상태값이 바뀌면 onreadystate가 감지하고 콜백함수 호출
+			
+		}
+		function sold_process(){
+			//alert(xhrObject.readyState);//0~>1~>2~>3~>4 브라우저마다 1~4까지의 상태값을 오픈해줌. 그러나 다 확인은 불가능 할 수있다. 제공하지 않을 수 있다.
+			//jsp에서 입력한 값 가져오기. -> out.print(15);
+			//요청에 대한 응답의 다운까지 완료된 상태, 3이면 다운로드 중
+			if(xhrObject.readyState == 4){ //비동기객체가 준비가 완료된 상태야? - ok면 실행, 브라우저가 요청하고 응답을 받았다. 4번, 다운로드 중이다. 3번
+				if(xhrObject.status==200){
+					var newTotal = xhrObject.responseText; //jsp의 out.print값을 가져온다.
+					//alert("newTotal : "+newTotal);
+					var boardSoldEl = document.getElementById("boardSold"); // document.getElementById("boradSold")=el
+					//clearText(boardSoldEl); - replaceText하면 clear되개함
+					replaceText(boardSoldEl, newTotal);
+					//보드 한개당 마진 금액 계산
+					//구매가 구하기
+					var costEl = document.getElementById("cost");
+					var cost = getText(costEl);
+					//소비자가 구하기
+					var priceEl = document.getElementById("price");
+					var price = getText(priceEl);
+					alert("구매가는: "+cost+"소비자가는: "+price);
+					//보드 한개당 마진 금액
+					var cashPerBoard = price-cost;
+					var cash = cashPerBoard*newTotal;
+					alert("보드의 한 개당 마진은?"+cashPerBoard+"전제 마진은 ? "+cash);
+					var cashEl = document.getElementById("cash");
+					replaceText(cashEl,cash);
+				}//end of 200 ok 상태값
+			}//end of 4로 처리가 완료된 상태
+		}
+		//span테그가 가지고 잇는 텍스트 노드 값을 읽어오기
+		function getText(el){ //span태그 중에서 특정한 span태그를 받음
+			var text="";
+			if(el!=null){ //더이상 null이 아니게 됨
+				if(el.childNodes){ //선택된 span의 자식노드가 잇다면 - 있겟지 당연히 그건 textNode
+					for(var i=0; i<el.childNodes.length; i++){// 그럼 자식노드의 개수를 가져와서 반복 - 여기서는 스펜마다 값을 한개씩 뒀으니 한개이겠지
+						var childNode = el.childNodes[i]; //그리고 그 값을 childNode에 담아 
+						//너 텍스트 노드니?
+						if(childNode.nodeValue != null){ //담긴 Node가 TextNode인지 구별 즉 노드에 값이 있냐? - NodeValue을 가질 수 있는 것은 TextValue밖에없다.
+							text = text+childNode.nodeValue; //있다면 텍스트의 값을 가져와.
+						}
+					}
+				}
+			}
+			return text;
+		}
+		//기존 텍스트 노드의 값을 다른 문자열로 바꾸기
+		/*******************************************************
+		 param1 : document.getElementById("boardSold");
+		 param2 : xhrObject
+		********************************************************/
+		function replaceText(el, value){
+			if(el != null){
+				clearText(el); //기존에 있던 10를 지워주세요
+				//새로운 텍스트 노드 15를 생성하기
+				var newNode = document.createTextNode(value); //15가 담기게됨
+				//위에서 생성한 테스트 노드 값을 el에 붙이는 함수 호출하기
+				el.appendChild(newNode); //appendChild: 값을 추가하기
+			}
+		}
+		//기존 태그안에 문자열 지우는 함수 구현
+		function clearText(el){ //el span태그를 가리킴 element의 약자. clearText로 replaceText를 생성 
+			if(el != null){ //span태그가 null이 아니니?
+				if(el.childNodes){//el.childNodes: span의 자식 - textNode
+					for(var i=0; i<el.childNodes.length; i++){ //el.childNodes: 복수형 - 여기서는 10 한개 , length: 배열의 원소갯수, lenghs: 문자열의 길이
+						var childNode = el.childNodes[i]; //el.childNodes[i]: el:span, 자식
+						el.removeChild(childNode); //removeChild: 자식 태그를 삭제하자.
+					}
+				}
+			}
+		}
+	</script>
+</head>
+<body>
+	<h2>보드 판매량</h2>
+	<table width="300px" height="80px">
+		<tr>
+			<th width="120px">라벨:보드판매량</th>
+			<td width="180px"><span id="boardSold">값:10</span>개</td>
+		</tr>
+		<!-- 소비자가-구매가=보드 한개당 마진 금액
+			  한개당 마진 금액*판매량=마진금액계산
+		 -->
+		<tr>
+			<th width="120px">라벨:구매가</th>
+			<td width="180px"><span id="cost">100</span>원</td>
+		</tr>
+		<tr>
+			<th width="120px">라벨:소비자가</th>
+			<td width="180px"><span id="price">120</span>원</td>
+		</tr>
+	</table>
+	<h2>마진금액:<span id="cash">0</span>원</h2>
+	<button onclick="getBoardSold()">마진은?</button>
+</body>
+</html>

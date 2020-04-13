@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<!-- 
+	xml보다 json이 대용량처리하기 좋으므로 json을 더 많이 사용한다.
+ -->
+<title>xml로 처리하기</title>
+<script type="text/javascript">
+	var xhrObject = null; //비동기 통신 객체 변수선언
+	//비동기연결 객체 생성하기 IE8.0이상, 사파리, 오페라, 크롬, 파이어폭스
+	function createRequest(){
+		try{
+			xhrObject = new XMLHttpRequest();
+		} catch(trymicrosoft) {
+			try{
+			xhrObject = new ActiveObject("Msxml2.XMLHTTP"); //비동기 통신을 생성 IE6.0 , ActiveObject지원x
+				
+			} catch (e) {
+				xhrObject = null;
+			}
+		}
+		if(xhrObject==null){ 
+			alert("비동기 통신 객체 생성 에러.");
+		}
+	}
+	function startMethod(){
+		createRequest(); //호출해야 비동기통신 객체 사용가능
+		xhrObject.open("GET","requestGet.xml", true); //통신 전에 필요한 상수값을지정
+		xhrObject.onreadystatechange = result_process;
+		xhrObject.send(null);
+	}	
+	function result_process(){
+		if(xhrObject.readyState == 4){
+			if(xhrObject.status == 200){
+				//document.getElementById("d_xml").innerText = xhrObject.responseXML;
+				document.getElementById("d_xml").innerHTML = xhrObject.responseText;
+			}
+		}
+	}
+</script>
+</head>
+<body>
+<div id="d_xml"></div>
+<button onClick="startMethod()">호출</button>
+</body>
+</html>
