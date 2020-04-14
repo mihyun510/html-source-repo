@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>쿠키관리[cookieManager.html]</title>
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+	$(document).ready(function(){ //즉시 실행 화면에 보이는 곳에 씀. 왜냐하면 화면에 보이는 부분이 DOMTREE가 구성이 되어야된다.
+		$("#btn_make").click(function(){ //한번만 실행
+			//초반에 쿠키에 값을 담을 때 id와 name값만 쿠키에 담음. pw의 값은 쿠키의 담지않았다.
+			$.cookie('c_id', 'tomato'); //쿠키 생성 - 쿠키 정보 추가하기
+			$.cookie('c_name', '공효진', {expires:7, path: '/', domain: ' localhost', secure: false}); //쿠키 정보에 경로, 도메인, 소멸날짜, 프로토콜 정보 설정하기
+		});
+		$("#btn_move").click(function(){
+			location.href='cookieMove.html'; //페이지 이동 처리
+		})
+	});
+</script>
+<!-- 
+expires:만요일을 의미 위에서 7를 주었으므로 7일동안유지
+path: 경로설정 이 사이트의 모든 페이지가 해당된다면 슬러쉬만 두고 특정한 폴더라면 경로를 줌.
+domain: 쿠키가 적용될 도메인
+secure: 기본은 false , true이면 https프로토콜만 적용됨.
+ -->
+<button id="btn_make">쿠키생성</button>&nbsp; <!-- &nbsp?? 이건뭐임...? -->
+<button id="btn_delete">쿠키삭제</button>&nbsp;
+<button id="btn_move">페이지 이동</button>&nbsp;
+</body>
+</html>

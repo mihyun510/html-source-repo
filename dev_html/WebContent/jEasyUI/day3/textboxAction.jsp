@@ -3,7 +3,7 @@
 <%
 	//<input id="tb_id" name="tb_id" class="easyui-textbox" placeholder="아이디">
 	//textbocAction.jsp?tb_id=apple
-	String tb_name = request.getParameter("umem_id");
+	String tb_name = request.getParameter("tb_name");
 			//							 	└>name
 	out.print("사용자가 입력한 아이디:"+tb_name);
 

@@ -63,7 +63,8 @@
 				}
 				,error:function(xhrObject){ //xhrObject == XMLHttpRequest
 					//  alert(xhrObject.responseText);
-					document.write(xhrObject.responseText);
+				//document.write->404 페이지가 바뀐다. 오류화면 처리.
+					document.write(xhrObject.responseText); //xhrObject.responseText 객체생성안했으나 사용가능
 				}
 			});
 			//onreadystatechange:상태값이 0~4까지 있는데 상태값이 바뀔때마다 호출할 콜백 메소드[sold_process]를 지정함.

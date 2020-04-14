@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>영화예매구현하기 - login, 부분갱신처리[ajax적용전 실습-Ver2]</title>
+<!-- jquery api or easyui api or cookie or css -->
+	<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/default/easyui.css"><!-- css사용 -->
+	<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/icon.css"><!-- 아이콘 사용 -->
+	<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/color.css"> <!-- 색 사용 -->
+	<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/demo/demo.css"> <!-- 데모버전 사용 -->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"></script> <!-- jquery사용 api에서 제공하는 안정화된 버전 사용-->
+	<script type="text/javascript" src="https://www.jeasyui.com/easyui/jquery.easyui.min.js"></script> <!-- eaayui사용 -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script><!-- jquery 쿠기 사용 -->
+	
+	<style type="text/css">
+		#d_login{
+			border: 1px solid red;
+			background: orange;
+			width: 195px;
+			height: 110px;
+		}
+		
+		#d_logout{
+			border: 1px solid yellow;
+			background: green;
+			width: 195px;
+			height: 80px;
+		}
+	</style>
+	<script type="text/javascript">
+		var c_name;
+		function loginAction(){
+			var db_id = "test";
+			var db_pw = "123";
+			var db_name = "공효진";
+			//사용자가 입력한 아이디 담기
+			var u_id= $("#mem_id").val();
+			//사용자가 입력한 비밀번호 담기
+			var u_pw= $("#mem_pw").val();
+			if(db_id == u_id){//아이디가 존재하니?
+				if(db_pw == u_pw){//비번은?
+					$.cookie("c_name", db_name);
+					//로그인이 성공했으므로 d_login은 숨기고 d_logout를 보여줌.
+					$("#d_login").hide();
+					$("#d_logout").show();
+				}else{
+					alert("비번이 틀렸습니다.");
+					$("#mem_pw").password('setValue','');
+				}
+			}
+			else{//아이디가 없네
+				alert("아이디가 없습니다.");
+			}
+		}
+	</script>
+</head>
+<body>
+<script type="text/javascript">
+	$(document).ready(function(){
+		//hide, show을 사용하기 위해서는 DOM구성이 완료되어야 하니 ready를 body안에서 사용하자
+		var c_name = null;//null이면 로그인 안한사람
+		c_name = $.cookie('c_name');
+		alert("c_name:"+c_name);
+		//z쿠키에서 꺼낸 이름이 null이면 로그인을 하지 않음.
+		//null이 아니면 로그인을 한 경우
+		if(c_name==null){ //처음 테스트할때는 당연히 로그인한 사람이 없으니 배경색이 green cookieManger에서 쿠키값을 줬음. 쿠키값이 들어있음.
+			$("#d_login").show();
+			$("#d_logout").hide();
+		} 
+		else{
+			$("#d_login").hide();
+			$("#d_logout").show();
+		}
+		
+	});
+</script>
+	<div id="lay_movie" class="easyui-layout" style="width:1000px;height:500px;">
+	<!-- [[메뉴 트리 구성]] -->
+	    <div data-options="region:'west',title:'코딩놀이',split:true" style="width:200px;">
+	    	<div style="margin:10px 0;"></div>
+	    	<!-- [[로그인 영영]] -->
+		    <div id="d_login" align="center">
+		    	<input id="mem_id" name="mem_id" class="easyui-textbox">
+		    	<input id="mem_pw" name="mem_pw" class="easyui-passwordbox">
+		    	<script type="text/javascript">
+					$("#mem_id").textbox({
+					    iconCls:'icon-man'
+					    ,iconAlign:'right'
+					    ,prompt: '아이디'
+					})
+				</script>
+				<script type="text/javascript">
+					$("#mem_pw").passwordbox({
+					    iconAlign:'right'
+					    ,prompt: '비밀번호'
+					});
+				</script>
+				<div style="margin:10px 0;"></div>
+				<a id="btn_login" href="javascript:loginAction()" class="easyui-linkbutton" 
+				data-options="iconCls:'icon-ok'">로그인</a>
+				<a id="btn_join" href="javascript:memberAction()" class="easyui-linkbutton" 
+				data-options="iconCls:'icon-man'">회원가입</a>
+		    </div>
+		    <!-- [[로그아웃 영영]] -->
+			<div id="d_logout" align="center"></div>
+	    
+	    </div>
+		<!-- [[메뉴 선택에 따른 내용 구성]] -->
+		<div data-options="region:'center',title:'영화예매 시스템'" style="padding:5px;background:#eee;"></div>
+	</div>
+</body>
+</html>

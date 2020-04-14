@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>영화예매구현하기 - login, 부분갱신처리[ajax활용 실습]</title>
+<!-- jquery api or easyui api or cookie or css -->
+	<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/default/easyui.css"><!-- css사용 -->
+	<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/icon.css"><!-- 아이콘 사용 -->
+	<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/color.css"> <!-- 색 사용 -->
+	<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/demo/demo.css"> <!-- 데모버전 사용 -->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"></script> <!-- jquery사용 api에서 제공하는 안정화된 버전 사용-->
+	<script type="text/javascript" src="https://www.jeasyui.com/easyui/jquery.easyui.min.js"></script> <!-- eaayui사용 -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script><!-- jquery 쿠기 사용 -->
+	
+	<style type="text/css">
+		#d_login{
+			border: 1px solid red;
+			background: orange;
+			width: 195px;
+			height: 110px;
+		}
+		
+		#d_logout{
+			border: 1px solid yellow;
+			background: green;
+			width: 195px;
+			height: 80px;
+		}
+	</style>
+</head>
+<body>
+<script type="text/javascript">
+	$(document).ready(function(){
+		//hide, show을 사용하기 위해서는 DOM구성이 완료되어야 하니 ready를 body안에서 사용하자
+		$("#d_login").show();
+		$("#d_logout").hide();
+		
+	});
+</script>
+	<div id="lay_movie" class="easyui-layout" style="width:1000px;height:500px;">
+	<!-- [[메뉴 트리 구성]] -->
+	    <div data-options="region:'west',title:'코딩놀이',split:true" style="width:200px;">
+	    	<div style="margin:10px 0;"></div>
+	    	<!-- [[로그인 영영]] -->
+		    <div id="d_login" align="center">
+		    	<input id="mem_id" name="mem_id" class="easyui-textbox">
+		    	<input id="mem_pw" name="mem_pw" class="easyui-passwordbox">
+		    	<script type="text/javascript">
+				$("#mem_id").textbox({
+				    iconCls:'icon-man'
+				    ,iconAlign:'right'
+				    ,prompt: '아이디'
+				})
+				</script>
+				<script type="text/javascript">
+				$("#mem_pw").passwordbox({
+				    ,iconAlign:'right'
+				    ,prompt: '비밀번호'
+				})
+				</script>
+				<div style="margin:10px 0;"></div>
+		    </div>
+	    </div>
+	    <!-- [[로그아웃 영영]] -->
+		<div id="d_logout" align="center"></div>
+	    
+		<!-- [[메뉴 선택에 따른 내용 구성]] -->
+		<div data-options="region:'center',title:'영화예매 시스템'" style="padding:5px;background:#eee;"></div>
+	</div>
+</body>
+</html>
