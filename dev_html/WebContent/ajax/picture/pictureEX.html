@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>그림 목록 - 자동완성기능 프로그램 실습</title>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<style type="text/css">
+	#picture_title{
+		width: 400px;
+		height: 700px;
+		border: 1px solid black;
+	}
+</style>
+<script type="text/javascript">
+	function startMethod(span){
+		alert('start');
+		//$("#d_detail").attr("left",150);
+		//$("#d_detail").attr("top",100);
+/* 	 	$.ajax({
+			method: "get"
+			,url:
+			,datatype:
+			,success:function(data){
+				
+			}
+		});  */
+	}
+	function clearMethod(){
+		alert('clear');
+		$("#d_detail").html(""); //빈문자열로 초기화한다.
+	}
+</script>
+</head>
+<body>
+	<div id="picture_title">
+		<center><h1>그 림 목 록</h1></center><hr>
+		<div id="picture_1" style="float:left;">
+			<img alt="이미지1" src="./picture1.jpg" style="float:left; margin:0 10px; whith:150px; height:150px;">
+			<span style="float:left;" onmouseover="startMethod(this)" onmouseout="clearMethod()">사진 제목: 사진1</span>
+		</div>
+		<div id="picture_2" style="float:left;">
+			<img alt="이미지2" src="./picture2.jpg" style="float:left; margin:0 10px; whith:150px; height:150px;">
+			<span style="float:left;" onmouseover="startMethod(this)" onmouseout="clearMethod()"">사진 제목: 사진2</span>
+		</div>
+		<div id="picture_3" style="float:left;">
+			<img alt="이미지3" src="./picture3.jpg" style="float:left; margin:0 10px; whith:150px; height:150px;">
+			<span style="float:left;" onmouseover="startMethod(this)" onmouseout="clearMethod()">사진 제목: 사진3</span>
+		</div>
+		<div id="picture_4" style="float:left;">
+			<img alt="이미지4" src="./picture4.jpg" style="float:left; margin:0 10px; whith:150px; height:150px;">
+			<span style="float:left;" onmouseover="startMethod(this)" onmouseout="clearMethod()">사진 제목: 사진4</span>
+		</div>
+	</div>
+</body>
+</html>

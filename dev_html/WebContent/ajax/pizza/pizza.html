@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>피자주문 프로그램 실습 - ajax활용, jquery활용</title>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script> 
+<script type="text/javascript">
+	function getCustomerInfo(){
+		//사용자가 입력한 전화번호 가져오기 
+		var u_tel = $("#mem_tel").val();
+		//alert("u_tel: "+u_tel);
+		$.ajax({
+			method:"POST"
+			,url: "./customerInfo.jsp"
+			,success:function(result){
+				alert("result"+result);
+				var res = JSON.stringify(result);
+				var resDoc = JSON.parse(res); //배열전환.
+				//밖으로 나가는 정보가 필요
+				var temp = "";
+				for(var i=0; i<resDoc.length; i++){
+					//alert(resDoc[i].mem_tel);
+					if(u_tel == resDoc[i].mem_tel){
+						//alert(resDoc[i].mem_addr);
+						//해당 번호의 주소정보를 출력하기 위한 변수에 담기
+						temp+=resDoc[i].mem_addr;
+					}
+				}	
+				$("#mem_addr").text(temp); //받아온 주소값을 textarea에 넣어주기. text형식으로 넣어주기. java의 setText()같은 느낌
+			}
+		});
+	}
+</script>
+</head>
+<body>
+	<p>
+		<img src="breakneck-logo.gif" alt="break Neck Pizza"/>
+	</p>
+	<p>
+		Enter your phone number:
+		<input type="text" size="15" id="mem_tel" name="mem_tel" onchange="getCustomerInfo()">
+	</p>
+	<p>Your order will be delivered to:</p>
+	<p>
+		<textarea id="mem_addr" name="mem_addr" rows="4" cols="50"></textarea>
+	</p>
+</body>
+</html>

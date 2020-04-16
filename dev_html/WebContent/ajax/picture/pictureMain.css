@@ -1,0 +1,9 @@
+@charset "UTF-8";
+div#d_detail {
+	position: absolute; /* default값으로 설정하면 원하는 지점으로 위치변경이 불가능하다. absolute로 설정해서  0,0부터 조절이 가능하도록 하자.*/
+}
+table {
+	width: 200px; height: 100px;
+	border: 1px solid black;
+	margin: 10px; padding: 20px;
+}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!-- 
+	트위터를 위해서 만들어진 react의 경우 jquery의 비중을 줄여야만 한다.
+	왜냐하면 react에서는 DOM API를 활용하여 태그에 조작이나 태그의 생성등을 직접 클래스를 생성하여 작성하므로
+	jquery의 사상과 맞지 않다. jquery는 객체 생성을 안하고 갖다 쓴다
+	react에서는 class를 직접 만들어서 사용자정의클래스를 사용하는 것을 권장하고 있다.
+	그래서 jquery와 같이 사용할 경우 충돌이 일어나거 에러 원인이 될수있다.
+	또한 react는 서버측에 처리와 기존 자바스크립트가 하지 못하는 DB연동을 직접 할 수 있도록 지원하는데
+	이때 Node.js API를 사용함
+	jquery와 Node.js사이에서도 충돌이 발생함
+	둘다 js기반의 오픈 소스이므로 당연히 일어난다. 서로 다른 제품인 것이다.
+	fetch는 리액트에서 사용할 때 사용하는 것이 좋겠다. 
+	
+	node.js기반인 react는 소셜미디어 부분에서 많은 사용
+	그러나 금융이나 물류회계쪽은 jsp를 사용하지 node.js을 많이 사용하지 않는다.
+ -->
+<html>
+<head>
+<meta charset="UTF-8">
+<title>피자 주문 프로그램</title>
+</head>
+<body>
+<!-- customerInfo의 jsp파일의 테스트 파일 - 리액트를 사용하기에는 ajax보다 fetch를 사용하는 것이 더 유리하다. fetch 소셜미디어 쪽에서 많이 사용.-->
+	<script type="text/javascript">
+	/* Uncaught (in promise) TypeError: Failed to execute 'fetch' on 'Window': Request with GET/HEAD method cannot have body.
+    at customerFetch.html:22  :body를 꼭 가져야된다. - get방식으로는 body를 직접 설정 불가능? 문법오류 발생 */
+    		/* post방식으로 테스트 해보기 - post방식에서는 body속성을 사용가능하다. */
+		fetch('./customerInfo.jsp',{ //url,{속성들..}
+			method:"post"
+			,body:JSON.stringify({ //json파일의 데이터를 스트링 형태로 바디설정??...? --> body가 어딧음? 어디서 확인이 가능함?
+				title:"foo"
+				,name:"bar"
+				,no:1
+			})
+			,headers:{
+				"Content-type":"application/json; charset=utf-8" //헤더영역의 마인 타입을 지정
+			}
+		}).then(response => response.json()) //fetch의 응답데이터를 받아온다. 그 응답데이터를 json포맷으로 리턴한다.
+	      .then(json => console.log(json)); //json의 결과를 브라우저의 콘솔로 찍어보기
+	</script>
+</body>
+</html>
