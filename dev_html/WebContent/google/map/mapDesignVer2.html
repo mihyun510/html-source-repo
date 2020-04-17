@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>MapDesign-Tag, 로그인 부분 구현 - 좋아요 싫어요 구현</title>
+	<style type="text/css">
+		div#d_resList{
+			border: thin dotted red;
+			padding: 5px;
+			text-align: left;
+		}
+	</style>
+	<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/default/easyui.css"><!-- easyUI사용 -->
+	<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/icon.css"><!-- 아이콘 사용 -->
+	<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/color.css"> <!-- 색 사용 -->
+	<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/demo/demo.css"> <!-- 데모버전 사용 -->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="https://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAArsLlaumdnutPr1i_GHpyeXthUwh-_MA"></script> <!-- 키값이 존재해야지 맵으로 실행가능 -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script><!-- jquery 쿠기 사용 -->
+	<script type="text/javascript">
+		//함수의 선언은 헤드안에서 하는 것을 기준으로 정함.
+		//쿠키 정보를 담을 전역변수 선언하기
+		var c_name = null;
+		function login() {
+			//var u_id = $("#mem_id").val(); //val():값을 꺼내오는 함수, 이것은 jsp페이지로 값을 넘겨서 자바가 처리해야하는 일이있다면 name의 값을 사용.
+			var u_id = $("#tb_id").val(); //이렇게 화면에 그냥 보여주는 것은 name의 값이 아닌 id의 값을 가져와야된다. 자바로 처리할 것이 아닌 자바스크립트로 이벤트를 처리할려면 id값을 사용
+			var u_pw = $("#tb_pw").val();
+			//var mem_name=''; 이것은 이제 필요없다. 왜냐하면 이제 쿠키에서 가저온 이름을 사용할 것이다. 
+			alert("사용자가 입력한 아이디-"+u_id+", 비번:"+u_pw);//사용자가 입력한 아이디를 꺼내보기
+			//form 전송이아닌 url에 붙혀서 다른 페이지로 이동하게 할려면 id의 값이 필요하다.
+			//location.href="loginAction.jsp?mem_id="+u_id; //form전송 뿐 만 아니라 location.href으로도 페이지를 이동시킬수 있다. - ajax사용에 필요한 코드
+			//$("#f_login").attr("method","get"); //attr():이벤트 처리 함수.
+			/*					┌>2번째로 온 파라미터의 페이지로 이동시킨다.  */
+			//$("#f_login").attr("action","loginAction.jsp"); //자바코드를 사용함. 자바코드를 사용하지 않으면 해결할 수 없다.?
+			//$("#f_login").submit(); //get방식은 보안상 위험하고 인터셉트가 중간에 가능하다. 그래서 테스트할 때만 사용한다.
+			fetch("loginAction.jsp?mem_id="+u_id+"&mem_pw="+u_pw,{
+				method: "GET"
+			//}).then(res => res.json()).then(res => console.log(res));//json()으로 받아올려고 했더니 타입이 맞지 않다는 오류가 발생 
+			//		    ┌> res: fetch의 결과를 받아주는 변수 즉, 그냥 fetch함수가 처리한 후의 응답을 받은 변수 그냥 이름, 
+			//			│ ┌>=>:	res객체에 대한 응답. 결과를 반환해주는 것 리턴값을 의미한다.	var res = function(){
+			//			│ │															return res.text
+			//			│ │														}
+			//}).then(res => res.text()).then(res => console.log(res)); //값을 콘솔로 받아올때 꼭 json타입이 아니여도 받아올 수 있음
+			}).then(res => res.text()).then(function(text){
+				alert("text:"+text);
+				//mem_name = text;
+				//fetch를 사용하면 반드시 공백이 포함되기 때문에 공백제거가 필수이다.
+				if("비밀번호가 틀립니다."==text.trim()){ //비밀번호가 틀립니다.
+					alert("비밀번호가 틀립니다.");
+					//로그인을 다시 진행해야된다.
+					$("#d_login").show();
+					$("#d_logout").hide(); 
+				}else if("아이디가 존재하지 않습니다"== text.trim()){ 
+					alert("아이디가 존재하지 않습니다");
+					$("#d_login").show();
+					$("#d_logout").hide(); 
+				} else{
+					c_name = text.trim();
+					$.cookie('c_name',c_name);
+					//로그인 화면은 숨기기
+					$("#d_login").hide();
+					//로그아웃 화면을 보여주기
+					$("#d_logout").show();
+					//$("#d_logout").html("<b>"+mem_name+"님 환영합니다.</b>");
+					$("#logok").html("<b>"+c_name+"님 환영합니다.</b>");
+					$("#d_resList").show(); //식당정보를 보여주자.
+				}
+			}); 
+		}
+		function logout(){
+			//쿠키에 저장된 이름 삭제하기 - 쿠키값을 지운다.
+			$.cookie('c_name',null);
+			//아이디와 패스워드를 빈문자열로 초기화 한다.
+			u_id = $("#tb_id").textbox('setValue','');
+			u_pw = $("#tb_pw").textbox('setValue','');
+			//로그인 시에는 select문을 통하여 인증 서비스를 처리해야 하므로 브라우저에서 
+			//톰겟서버로 다시 톰캣 서버에서 오라클 서버로 요청을 보낸 후 오라클이 응답한 메시지를
+			//다시 톰캣으로 브라우저로 응답 보내야 하므로 지연이 발생함.
+			$("#d_login").show(); //쿠키에 저장된 것이 빛의 속도로 처리가 된다. 그러니 아작스를 태우지 않아도 된다.
+			$("#d_logout").hide();
+			//식당정보도 숨기자
+			$("#d_resList").hide();
+		} 
+		function like(u_num){
+			$.ajax({
+				method:'post'
+				,url:'./likeAction.jsp'
+				,dataType:'json'
+				,data: 'res_num='+u_num
+				,success: function(data){
+					if(data==1){ //가져온 데이터가 1개이면 즉, 좋아요가 넘어왓으면.
+						fetch('./jsonMapList.jsp',{
+							method:"post"
+						}).then(res => res.text()).then(function(text){
+							var imsi = text.trim();
+							var resDoc = JSON.parse(imsi);
+							var resList = '<table>';
+							for(var i =0 ; i<resDoc.length; i++){
+								resList += '<tr><td>';
+								resList += resDoc[i].res_name+'<br>';
+								//글씨는 없애고 이미지만 보이자.
+								resList += '<img src=like.png width=20 height=20/>'+resDoc[i].res_like;
+								resList += '&nbsp;&nbsp;'; //&nbsp;&nbsp 여백주기
+								resList += '<img src=hate.png width=20 height=20/>'+resDoc[i].res_hate;
+								resList += '</td></tr>';
+							}
+							resList += '</table>';
+							$("#d_resList").html(resList);
+						});
+					}
+				}
+			});
+		}
+		function hate(u_num){
+			var u_hate = $("#u_hate").text();
+			//아작스안에 아작스가 오는 것은 가능하다. 한 함수 안에 두개의 아작스가 오는 것도 가능하다.
+			$.ajax({
+				method:'post'
+				,url:'./hateAction.jsp'
+				,dataType:'json'
+				,data: 'res_num='+u_num
+				,success: function(data){
+					if(data==1){
+						fetch('./jsonMapList.jsp',{
+							method:"post"
+						}).then(res => res.text()).then(function(text){
+							var imsi = text.trim();
+							var resDoc = JSON.parse(imsi);
+							var resList = '<table>';
+							for(var i =0 ; i<resDoc.length; i++){
+								resList += '<tr><td>';
+								resList += resDoc[i].res_name+'<br>';
+								//글씨는 없애고 이미지만 보이자.
+								resList += '<img src=like.png width=20 height=20/>'+resDoc[i].res_like;
+								resList += '&nbsp;&nbsp;';
+								resList += '<img src=hate.png width=20 height=20/>'+resDoc[i].res_hate;
+								resList += '</td></tr>';
+							}
+							resList += '</table>';
+							$("#d_resList").html(resList);
+						});///////////////end of fetch
+					}///////////////오라클 서버에 반영이 되었을때
+				}////////////end of success
+			});////////////end of ajax
+		}///////////////end of like
+	</script>
+</head>
+<body>
+	<script type="text/javascript">
+	//DOM구성이 완료되었을때 => 크롬 브라우저가 mapDesignVer2.html문서에 들어있는 태그들에 대한 스캔이 완료되었다는 의미 
+	//태그에 접근이 가능, dom을 조작도 가능 , cookie값이 존재하는 지도 체크가능
+		$(document).ready(function(){
+			if(c_name != null && c_name.length > 0){//쿠키값이 존재하니? 네:로그인했어요, 아니: 로그인 안했음.
+				$("#d_login").hide(); 
+				$("#d_logout").show();
+				$("#d_resList").show();
+					
+			}else{ //쿠키값이 존재하지 않으면 로그인 하지 않음.
+				$("#d_login").show(); 
+				$("#d_logout").hide();
+				$("#d_resList").hide();
+			}
+			
+			
+			
+			
+		});
+	</script>
+	<table border="1" align="cneter" width="1000" height="600">
+		<tr>
+			<td width = "700">
+			<div id="d_map" style="width:800px; height:600px;"></div>
+			</td>
+			<td width="200" valign="top">
+			<!-- ======================== 로그인 화면 시작 ============================ -->
+			<div id="d_login">
+			<form id="f_login">
+				<table width="100%" border="0" borderColor="red" >
+					<tr>
+						<td>
+						<!-- 				┌>자바가 읽을 수 있는 값 쿼리스트링 다음으로 들어가는 변수로 이것의 값으로 서버에 값을 넘긴다.-->
+						<input id="tb_id" name="mem_id" class="easyui-textbox" prompt="아이디" data-options="iconCls:'icon-search'" style="width:110px">
+						</td>
+						<td rowspan="2">
+							<a id="btn" style="height:60px" href="javascript:login()" class="easyui-linkbutton">로그인</a>
+						</td>
+					</tr>
+					<tr>
+						<td>
+						<!--	┌>화면상에서 쓸 아이값 아무거나 정하기
+								│				┌>DB에서 사용한 컬럼이름으로 하기 - 왜냐하면 jsp에서 java가 인식하는 것-->
+						<input id="tb_pw" name="mem_pw" class="easyui-passwordbox" prompt="비밀번호" iconWidth="28" style="width:110px">
+						</td>
+					</tr>
+				</table>
+			</form>
+			</div>
+			<!-- ======================== 로그인 화면 끝 ============================ -->
+			<!-- ======================== 로그아웃 화면 시작 ============================ -->
+			<div id="d_logout">
+			<form id="f_logout">
+				<table width="100%" border="0" borderColor="bule" >
+					<tr>
+						<td style="width:100px">
+							<span id="logok"></span> <!-- 홍길동님 환영합니다. -->
+						</td>
+						<td>
+							<a id="btn_logout" style="height:30px" href="javascript:logout()" class="easyui-linkbutton">로그아웃</a>
+						</td>
+					</tr>
+				</table>
+			</form>
+			</div>
+			<!-- ======================== 로그아웃 화면 끝 ============================ -->
+			<!-- ======================== 식당목록 시작 ============================ -->
+			<div id="d_resList">식당목록</div>
+			<!-- ======================== 식당목록 끝 ============================ -->
+			<!-- 	<table width="100%" border="1" borderColor="orange" >
+					<tr>
+						<td>좋아요: </td>
+					</tr>
+					<tr>
+						<td>싫어요: </td>
+					</tr>
+				</table> -->
+			<script type="text/javascript">
+				$(document).ready(function(){
+					$("#d_login").show(); //show():jquery가 제공하는 함수 - 보여주자
+					$("#d_logout").hide();//hide(): 숨기자.
+					
+					var map = new google.maps.Map(document.getElementById('d_map'),{//구글에서 제공해주는 클래스 사용하기 위해서 인스턴스화함
+						zoom: 14 //맵의 크기를 정함.
+						//전제지도의 중심위치를 결정.
+						,center: new google.maps.LatLng(37.4798346,126.8824997) //위도 경도 값을 설정 - 첨음 디폴트 위치 설정.
+						//지도의 처음 화면을 로드맵으로 설정
+						,mapTypeId: google.maps.MapTypeId.ROADMAP //ROADMAP으로 지도로 보는 것 - 처음에 로드맵으로 지도맵 보이기
+						//,mapTypeId: google.maps.MapTypeId.SATELLITE //처음에 위성으로 맵이 보이기 
+					});////////////end of map
+					//태그의 팝업창 사용			┌>default 패키지를 사용하지 않겠다. 보완에 아주 취약하다. 즉, google.maps의 패키지안에 존재하는 팝업클래스를 사용한다.
+					var infowindow = new google.maps.InfoWindow(); //말풍선 클래스 사용. 말풍선을 클릭했을 떄 열리는 창 = InfoWindow() 객체
+					//마커를 사용
+					var marker; //마커가 5개가 출력이 되어야됨.(이 5개의 값은 json에서 읽어와야된다[스캔] - jsonMapList.jsp)
+					//여러개의 마커를 사용하기 위한 인덱스값을 부여하기 위한 변수
+					var i; //마커 생성시 부여한 인덱스값
+					$.ajax({
+						url: './jsonProcMapLsit.jsp' //서버에 요청
+						,dataType: 'json' //데이터타입은 json
+			///			//전송 전공했니? 어디에 있는데 데이터안에
+						,success:function(data){ //전송에 성공하면 함수를 실행하고 data는 전송에 성공하고 받은 응답결과 데이터 즉 json포맷 결과
+							//$("#d_map").text(data);[object Object]
+							/* insert here -데이터를 오브젝트가 아닌 String값으로 받아오기 */
+			///				//Object의 data의 값을 string으로 꺼낼꺼야. - 직관적인 정보로 변환 직관적이긴 하지만 구조체이기떄문에 한개씩 자원을 꺼낼 수없음. 덩어리 개념이다.
+							var result = JSON.stringify(data); //값이 덩어리로 들어있음.
+							//$("#d_map").text(result); 
+			//				//배열로 바뀐다. - 이제하나씩 꺼낼수 있다. 이제 배열.속성으로 접근이 가능하다
+							var jsonDoc = JSON.parse(result); //값을 파싱해온다. - 데이터 한개씩 배열방 한칸에 담기
+							for(var i = 0; i<jsonDoc.length; i++){ //json의 정보갯수 만큼 for문이 돌고 
+								//alert(jsonDoc[i].res_name);
+								//배열.속성이름으로 꺼내야된다. 키값으로 꺼내야된다.
+								var src1="../../img/restorant/";
+								marker = new google.maps.Marker({
+									//각각의 마커가 가지고 있는 인덱스
+									id:i//0,1,2,3,4 - 인덱스값. 하나하나가 마커의 인덱스 정보.
+									//포지션값도 배열로 변경된다.
+									//                                  위도                          경도
+									,position: new google.maps.LatLng(jsonDoc[i].lat, jsonDoc[i].lng)// 마커를 여러개 찍을거임
+									//맵에다가 마커 찍어줘
+									//지도는 map하나임
+									,map: map
+									//마커가 5개이므로 식당이름 5개로 분류
+									//             식당이름
+									,title: jsonDoc[i].res_name
+								}); ///////////end of marker
+								//마커 5개가 for문 안에서 객체 생성되니까 이벤트도 안에서 건다.
+								//                            마커         클릭하면        함수가 실행됨. 클릭된 마커, 그 마커의 인덱스
+								google.maps.event.addListener(marker, 'click',(function(marker,i){ //마커 클릭하면 이벤트 발생
+									//addListener 함수의 리턴값이 변수가 아닌 함수임.
+									//자바스크립트에서는 값에 싱글 쿼테이션이나 더블 쿼테이션이 없으면 변수로 취급하여 
+									//undefine xxxx오류 메세지 출력
+									//함수의 결과는 윈도우 창을 열어줌.(click된 마커마다 다르게)
+									return function(){ //이벤트 함수의 반환함수 클릭할때마다 컨텐츠를 만들어준다. 그 컨텐츠는 말풍션을 오픈해준다.
+										var content = '<b>식당이름: '+jsonDoc[i].res_name+'</h2>';
+										content += '<br>';
+										content += '<b>전화번호: '+jsonDoc[i].res_tel+'</b>';
+										content += '<br>';
+										content += '<b>소개글: '+jsonDoc[i].res_info+'</b>';
+										content += '<br>';
+										content += '<b>운영시간: '+jsonDoc[i].res_time+'</b>';
+										content += '<br>';
+										content += "<b><img src="+src1+jsonDoc[i].res_photo+" width='50' height='40'></b>";
+										content += '<br>';
+										content += '좋아요<a href="javascript:like('+jsonDoc[i].res_num+')"><img src=like.png width=20 height=20></a>';
+										content += '<span id=u_like></span>'
+										content += '&nbsp;&nbsp;'
+										content += ',싫어요<a href="javascript:hate('+jsonDoc[i].res_num+')"><img src=hate.png width=20 height=20></a>';
+										infowindow.setContent(content);//infowindow:마커처리할때 말풍선 클래스, setContent(내용)
+										infowindow.open(map,marker); //마커의 말풍선을 연다.
+									} //end of 반환함수
+								})(marker, i)); //(marker, i)는 뭐지...? /////////////end of addLitener
+								//마커를 생성했을때 click이벤트 처리하기위한 코드
+								//마커가 0이아니고 가리키는 것이 있다면
+								if(marker){ //자바스크립트에서는 0이 아니면 모두  true 마커가 오브젝트를 가지고 있어도 트루임. 이 문장이 맞는 표현임
+									marker.addListener('click', function(){ //클릭이 되었을때
+										//상세보기 처리를 해주고
+										map.setZoom(15); //마커를 클릭하면 확대되는 느낌을  줌
+										//중앙의 위치를 마커가 가리키는 위치로 고정해준다.
+										map.setCenter(this.getPosition()); //클릭하면 클릭한 마커의 위치로 센터를 맞추자.
+									});
+								}/////////////end of if
+							}/////////////end of for
+						}/////////////////end of success
+					});/////////////////// end  of ajax
+				});//////////////////////end of ready
+			</script>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

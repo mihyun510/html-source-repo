@@ -8,7 +8,7 @@
 	, 디비에서 가져온 값을 json파일로 테스트해볼것이다. 그러니 html소스코드가 하나도 필요가 없다 --%>
 <% 
 	RestaurantDao rDao = new RestaurantDao();
-	List<Map<String, Object>> mrList = rDao.restList();
+	List<Map<String, Object>> mrList = rDao.mapRestList();
 	Gson g = new Gson();
 	String imsi = g.toJson(mrList);
 	//json 타입으로 결과를 확인 - json으로 포맷을 해야지 자바스크립트에서 데이터를 뽑아올 수 있다. 아니면 데이터를 뽑아올 수 없음. 주의.
