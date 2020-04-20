@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>js코드 만으로 처리 - json파일을 사용하지 않고 script영역에서 따로 선언하여 처리</title>
+	<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/default/easyui.css"><!-- css사용 -->
+	<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/icon.css"><!-- 아이콘 사용 -->
+	<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/color.css"> <!-- 색 사용 -->
+	<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/demo/demo.css"> <!-- 데모버전 사용 -->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"></script> <!-- jquery사용 api에서 제공하는 안정화된 버전 사용-->
+	<script type="text/javascript" src="https://www.jeasyui.com/easyui/jquery.easyui.min.js"></script> <!-- eaayui사용 -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script><!-- jquery 쿠기 사용 -->
+</head>
+<body>
+<!-- 
+valueField - 실제 서버로 전송되는 필드
+textField - 화면에 출력되는 필드
+data-options= 스크립트 코드 ==> html태그와 js를 섞어서 사용하는 것은 좋지않다. 따로 분리하자. 태그속성으로 data-option을 사용하는 것은 태그와 js를 같이 사용하는 것이다. 
+ -->
+<input id="cb_title" class="easyui-combobox"/>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#cb_title").combobox({
+			//url: 'combobox_data.json' //json으로 가져와서 데이터를 뿌려줄려면 필요한 속성임.
+			valueField: 'label'
+			,textField: 'value'
+			,data: [{
+				label: 'java',
+				value: 'Java'
+			},{
+				label: 'perl',
+				value: 'Perl'
+			},{
+				label: 'ruby',
+				value: 'Ruby'
+			}]
+		});
+	});
+</script>
+</body>
+</html>

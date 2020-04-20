@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>뉴스 전광판</title>
+<style type="text/css">
+	table {
+		border: 3px solid black;
+		width: 600px;
+		height: 30px;
+	}
+</style>
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.js"></script>
+<script type="text/javascript">
+	function autoLoad(){
+		//alert("3초지남.")
+		//아작스로 데이터를 끌고오자. 
+		$.ajax({
+			method: "get"
+			,url: "newsData.jsp"
+			,dataType: "html"
+			,success:function(result){
+				//alert("success===>"+result);
+				$("#d_news").html(result);
+			}
+		//								┌>상태값
+			,fail:function(xhrObject, textStatus){
+				alert(xhrObject.responseText+", "+textStatus);
+			} 
+			/* ,error:function(xhrObject, textStatus){
+				alert(xhrObject.responseText+", "+textStatus);
+			}  */
+			
+		});
+	}
+</script>
+</head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			//바로실행 함수를 사용하려면 ready안에 넣어주자.
+			function start(){
+				setInterval(autoLoad, 3000); //3초마다 autoLoad함수 호출 - 타임라인 걸기성공
+			}
+			start(); //start()메소드는 호출해야 호출되는 이름있는 함수.
+		});
+	</script>
+	<h3>헤드라인 뉴스</h3>
+	<div id="d_news">뉴스 준비중....</div>
+</body>
+</html>
