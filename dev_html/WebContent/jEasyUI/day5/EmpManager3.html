@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>사원관리 프로그램 js만사용 </title>
+	<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/default/easyui.css"><!-- css사용 -->
+	<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/icon.css"><!-- 아이콘 사용 -->
+	<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/color.css"> <!-- 색 사용 -->
+	<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/demo/demo.css"> <!-- 데모버전 사용 -->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"></script> <!-- jquery사용 api에서 제공하는 안정화된 버전 사용-->
+	<script type="text/javascript" src="https://www.jeasyui.com/easyui/jquery.easyui.min.js"></script> <!-- eaayui사용 -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/jax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script><!-- jquery 쿠기 사용 -->
+	<script type="text/javascript">
+		function empList(){
+			$("#dg_emp").datagrid({
+	            url:"./jsonEmpList.jsp"
+           		,onLoadSuccess: function(data){
+           			data = JSON.stringify(data); //오브젝트로 받아오는거 string으로 파싱해주기
+					alert("새로고침 처리 성공: "+ data);
+           		}
+			});
+		}
+	</script>
+</head>
+<body>
+	<table id="dg_emp" class="jeasyui-datagrid"></talbe>
+	<script type="text/javascript">
+		$(document).ready(function(){//태그 스캔 완료 - js로 접근, 조작이 가능한 상태
+			$('#dg_emp').datagrid({
+			    url:'./jsonEmpList.jsp'
+			    ,title:"회원관리 - js만으로"
+			    ,width: 700
+			    ,height: 300
+			    ,pagination: true
+			    ,rownumbers: true
+			    ,fitColumns: true
+			    ,singleSelect: true
+			    ,columns:[[
+			        {field:'EMPNO',title:'사원번호',width:100, align:'center'}
+			        ,{field:'ENAME',title:'사원이름',width:100, align:'center'}
+			        ,{field:'JOB',title:'사원직급',width:100,align:'center'}
+			        ,{field:'SAL',title:'급여',width:100,align:'center'}
+			        ,{field:'COMM',title:'인센티브',width:100,align:'center'}
+			        ,{field:'HIREDATE',title:'입사날짜',width:100,align:'center'}
+			        ,{field:'DEPTNO',title:'부서번호',width:100,align:'center'}
+			        ,{field:'MGR',title:'부서장이름',width:100,align:'center'}
+			    ]]
+/* 	 <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="empList()">조회</a>
+     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addUser()">입력</a>
+     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">편집</a>
+     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">삭제</a> */
+				,toolbar: [{
+					text:'조회',
+					iconCls: 'icon-search',
+					handler: function(){
+						alert("조회버튼 호출성공");
+						empList();
+					}
+				},'-',{
+					text:'입력',
+					iconCls: 'icon-add',
+					handler: function(){
+						alert("입력버튼 호출성공");
+						addUser();
+					}ㅋ
+				},'-',{
+					text:'편집',
+					iconCls: 'icon-edit',
+					handler: function(){
+						alert("편집버튼 호출성공");
+						editUser();
+					}
+				},'-',{
+					text:'삭제',
+					iconCls: 'icon-remove',
+					handler: function(){
+						alert("삭제버튼 호출성공");
+						destroyUser();
+					}
+				}]
+			});////////end of datagrid
+		});////////////end of ready
+	</script>
+</body>
+</html>

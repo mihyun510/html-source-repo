@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="orm.mybatis.mapper.deptMapper"><!-- namespace:이름을 부여한다. -->
+<!-- 									┌>꼭 util~이렇게 안써도 map이라고 아디다스명으로 써도 map 지원 그러나 소문자로 작성하기 -->
+	<select id="currentTime" parameterType="map" resultType="java.util.Map"><!-- resultType을 VO로 안하고 Map으로 해보자. -->
+		select to_char(sysdate, 'HH24:MI:SS') <!-- 쿼리문을  발췌해서 테스트를 돌리자. -->
+		 from dual
+	</select>
+<!-- 	<delete id="empDelete" parameterType="map"> Delete도 오기 가능하다. 파라미터를 맵으로 넘기기 가능한데 아디다스명으로 parameterType="map"이렇게도 쓰기가 가능하다
+		delete from emp
+			where empno=#{empno} Map<String, Object> map.put("empno", 7566);이렇게 쓸수 있으니 위와같이 쓰시가 가능하다.
+	</delete> -->
+</mapper>

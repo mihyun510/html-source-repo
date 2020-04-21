@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="orm.mybatis.mapper.empMapper"><!-- namespace:이름을 부여한다. -->
+<!-- 									┌>꼭 util~이렇게 안써도 map이라고 아디다스명으로 써도 map 지원 그러나 소문자로 작성하기 -->
+<!-- 														┌>무조건 Map아니면 VO로 선언해야된 왜냐하면 데이터를 받아오는 타입은 Map아니면 VO이니까. -->
+	<select id="empList" parameterType="map" resultType="java.util.Map"><!-- resultType을 VO로 안하고 Map으로 해보자. 결과를 정해준 것으로 받아온다.알아서0
+	-->
+		select empno, ename, job, mgr, hiredate, sal, comm, deptno <!-- 쿼리문을  발췌해서 테스트를 돌리자. -->
+		 from emp
+	</select>
+	<!-- 		┌>아이디는 구분을 해야되니까 절대로 겹치면 안된다. 		┌>VO타입이 와도 된다. 만약 파일이 없다면 class notfound가 떨어진다.-->
+	<!-- <select id="empList2" parameterType="map" resultType="com.vo.empVO">resultType을 VO로 안하고 Map으로 해보자. 결과를 정해준 것으로 받아온다.알아서0
+	
+		select empno, ename, job, mgr, hiredate, sal, comm, deptno 쿼리문을  발췌해서 테스트를 돌리자.
+		 from emps
+	</select> -->
+	<delete id="empDelete" parameterType="map"> <!-- Delete도 오기 가능하다. 파라미터를 맵으로 넘기기 가능한데 아디다스명으로 parameterType="map"이렇게도 쓰기가 가능하다-->
+		delete from emp
+			where empno=#{empno} <!-- Map<String, Object> map.put("empno", 7566);이렇게 쓸수 있으니 위와같이 쓰시가 가능하다. -->
+	</delete>
+</mapper>

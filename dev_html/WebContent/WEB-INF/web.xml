@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+ <!-- init-param: 서블릿 내부에 선언되는 것처럼 그 서블릿에 제한적으로 사용가능함. 서블릿이 호출될 때 마다 새로 읽어서 처리함. context-param처럼 지속적으로 서버가 꺼질 때가지 유지되는 것은 아니다. 즉, 서블릿이 소멸될때 같이 삭제됨. -->
+ <!-- context-param: 최초 서버 기동시 한번 읽어서 그 정보를 계속 유지함. -->
+ 	<context-param>
+ 	<!-- log를 보는 것은 모두의 관심사이다. 그래서 content-param에 로그의 이름과 클래스를 추가함.  -->
+ 		<param-name>log4jConfigLocation</param-name>
+ 		<!--                     ┌>배포는 src에 했는데 왜 classes로 경로로 잡았을까 - class를 수정하면 classes을 비우고 새로 생성한다. 그러면 또 배포를 해야된다. src에 있으면 없어지지 않는다. -->
+ 		<param-value>/WEB-INF/classes/log4j.properties</param-value><!-- 로그4~을 이용해서 로그를 더욱 상세하게 잡아보자. -->
+ 	</context-param>
  	<servlet>
 		<servlet-name>now</servlet-name>
 		<servlet-class>example.NowServlet</servlet-class>
