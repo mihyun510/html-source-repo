@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd"><!-- 문서가 emp.xml과 다르다. -->
 <configuration>
+	<typeAliases> <!-- 명세서를 확인하고 typeailas가 존재하면 끼워넣어 사용가능하다. 문법에러가 일어나지 않는다면 사용가능. -->
+	 <typeAlias alias="empVO" type="com.vo.EmpVO"/>
+	</typeAliases>
 	<environments default="development">
 		<environment id="development">
 			<transactionManager type="JDBC" />
@@ -20,5 +23,6 @@
 	<!-- 				   ┌>패키지이름 		  ┌>관리할 xml파일-->
 		<mapper resource="orm/mybatis/mapper/emp.xml" /> <!-- 쿼리문이 들어있음. -->
 		<mapper resource="orm/mybatis/mapper/dept.xml" /> <!-- 쿼리문이 들어있음. -->
+		<mapper resource="orm/mybatis/mapper/book.xml" /> <!-- 쿼리문이 들어있음. -->
 	</mappers>
 </configuration>

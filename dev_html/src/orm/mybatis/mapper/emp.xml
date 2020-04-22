@@ -4,10 +4,19 @@
 <!-- 									┌>꼭 util~이렇게 안써도 map이라고 아디다스명으로 써도 map 지원 그러나 소문자로 작성하기 -->
 <!-- 														┌>무조건 Map아니면 VO로 선언해야된 왜냐하면 데이터를 받아오는 타입은 Map아니면 VO이니까. -->
 	<select id="empList" parameterType="map" resultType="java.util.Map"><!-- resultType을 VO로 안하고 Map으로 해보자. 결과를 정해준 것으로 받아온다.알아서0
-	-->
+														  └>데이터 로우을 담을 타입				-->
+		<!-- 	┌>Map타입으로 설정를 하면 여기서 마이바티스가 컬럼명을 캐치해서 알아서 키값을 넣어오는 것일까? - 마이바티스는 오라클의 그대로를 사용할 수 있다. 그래서 오라클에서 커서가 움직여서 가져온 데이터를 맵타입으로 가져올 수 있다. -->
 		select empno, ename, job, mgr, hiredate, sal, comm, deptno <!-- 쿼리문을  발췌해서 테스트를 돌리자. -->
 		 from emp
+		 <!-- where empno = #{empno} 조건절을 사용하는 경우 -->
 	</select>
+	<select id="empList2" parameterType="map" resultType="java.util.Map">
+		select empno, ename, job, mgr, hiredate, sal, comm, deptno 
+		 from emp
+		  <if test="empno > 0"><!-- 동적쿼리를 위해서 if문를 사용가능하다. 조건이 없다면 모든결과가 나오고 조건을 주면 조건에 대한 결과만 나온다. 즉, 동적으로 움직이는 것을 확인.-->
+			 where empno = #{empno} <!-- 파라미터타입이 원시형(parameterType="int") 타입이면 value로 작성해야된다. -->
+ 		  </if>
+	</select> 
 	<!-- 		┌>아이디는 구분을 해야되니까 절대로 겹치면 안된다. 		┌>VO타입이 와도 된다. 만약 파일이 없다면 class notfound가 떨어진다.-->
 	<!-- <select id="empList2" parameterType="map" resultType="com.vo.empVO">resultType을 VO로 안하고 Map으로 해보자. 결과를 정해준 것으로 받아온다.알아서0
 	
