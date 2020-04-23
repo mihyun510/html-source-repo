@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>.</title>
+<title>bookSearchDetail3.jsp</title>
 </head>
 <body>
-
+<h2>bookSearchDetail3.jsp</h2>
 </body>
 </html>

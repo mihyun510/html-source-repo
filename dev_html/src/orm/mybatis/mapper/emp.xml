@@ -11,7 +11,7 @@
 		 <!-- where empno = #{empno} 조건절을 사용하는 경우 -->
 	</select>
 	<select id="empList2" parameterType="map" resultType="java.util.Map">
-		select empno, ename, job, mgr, hiredate, sal, comm, deptno 
+		select empno, ename, job, mgr, TO_CHAR(hiredate, 'YYYY-MM-DD') as hiredate, sal, comm, deptno 
 		 from emp
 		  <if test="empno > 0"><!-- 동적쿼리를 위해서 if문를 사용가능하다. 조건이 없다면 모든결과가 나오고 조건을 주면 조건에 대한 결과만 나온다. 즉, 동적으로 움직이는 것을 확인.-->
 			 where empno = #{empno} <!-- 파라미터타입이 원시형(parameterType="int") 타입이면 value로 작성해야된다. -->

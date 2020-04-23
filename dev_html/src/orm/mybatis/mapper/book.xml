@@ -2,12 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="orm.mybatis.mapper.bookMapper"><!-- log4j에 mapper namespace로 마이바티스로딩을 해줄수 있다. -->
 	<select id="bookList" parameterType="map" resultType="java.util.Map">
-		select book_no, book_title, book_img, book_author
-       		  ,book_publish, book_date, book_price
+		select book_no, book_title, book_img, book_author, book_publish, book_date, book_price
    			from ajax_book
-		  <if test="book_title != null"> <!-- test: 체크를 한다. 컬럼에 대해서 null체크를 한다. null이 아니면 이 if문을 처리한다 -->
-			 where book_title LIKE '%'|| #{book_title}||'%' 
+   		<where>
+		  <if test='book_title != null and choMode.equals("N")'> <!-- test: 체크를 한다. 컬럼에 대해서 null체크를 한다. null이 아니면 이 if문을 처리한다 -->
+			 and book_title LIKE '%'|| #{book_title}||'%' <!-- 초성이 아니면 이것 실행 -->
  		  </if>
+		  <if test='book_title != null and choMode.equals("Y")'> <!-- test: 체크를 한다. 컬럼에 대해서 null체크를 한다. null이 아니면 이 if문을 처리한다 -->
+			 and fn_choseong(book_title) LIKE '%'|| #{book_title}||'%'<!-- 초성일때만 이쪽 실행 --> 
+ 		  </if>
+	  </where>
  		  ORDER BY book_title asc
 	</select> 
 </mapper>

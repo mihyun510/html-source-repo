@@ -45,33 +45,33 @@
 			        ,{field:'DEPTNO',title:'부서번호',width:100,align:'center'}
 			        ,{field:'MGR',title:'부서장이름',width:100,align:'center'}
 			    ]]
-/* 	 <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="empList()">조회</a>
-     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addUser()">입력</a>
-     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">편집</a>
-     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">삭제</a> */
+/* 	 <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="empList()">사원조회</a>
+     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addUser()">사원입력</a>
+     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">사원편집</a>
+     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">사원삭제</a> */
 				,toolbar: [{
-					text:'조회',
+					text:'사원조회',
 					iconCls: 'icon-search',
 					handler: function(){
 						alert("조회버튼 호출성공");
 						empList();
 					}
 				},'-',{
-					text:'입력',
+					text:'사원입력',
 					iconCls: 'icon-add',
 					handler: function(){
 						alert("입력버튼 호출성공");
 						addUser();
-					}ㅋ
+					}
 				},'-',{
-					text:'편집',
+					text:'사원편집',
 					iconCls: 'icon-edit',
 					handler: function(){
 						alert("편집버튼 호출성공");
 						editUser();
 					}
 				},'-',{
-					text:'삭제',
+					text:'사원삭제',
 					iconCls: 'icon-remove',
 					handler: function(){
 						alert("삭제버튼 호출성공");

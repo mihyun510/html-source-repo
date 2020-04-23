@@ -21,6 +21,7 @@ public class SqlMapBookDao {
 	 * @return - 사용자가 입력한 도서정보를 선분조건(LIKE패턴)으로 검색하여 결과 반환
 	 ***********************************************************/
 	public List<Map<String, Object>> bookList(Map<String, Object> pMap){
+		loger.info("book_title: "+pMap.get("book_title")+", choMode:"+pMap.get("choMode"));
 		//25번에서 선언만 되어 있다. 따라서 검색 결과가 존재하지 않으면 NullpointException의 원인이 될 수도 있다.
 		//가급적이면 에러를 피해 갈수 있도록 코딩을 전개한다.
 		List<Map<String, Object>> blist = new ArrayList<Map<String,Object>>();
