@@ -112,16 +112,16 @@
 										//alert(result); 마우스 오버하면 그 상태의 jsp의 내용이 출력
 										alert("b_no:"+b_no);
 										if("1"==b_no){ //1번이 선택되면 나머지는 빈문자열로 처리
-											
-											//location.href=targetURL;
+											location.href=targetURL;
 										}else if("2"==b_no){
-											
+											location.href=targetURL;
 										}else if("3"==b_no){
-										
+											location.href=targetURL;
 										}else if("4"==b_no){
-										
+											location.href=targetURL;
 										//}else if("5"==$(this).attr("id")){ 'get'방식일때
 										}else if("5"==b_no){
+											location.href=targetURL;
 											
 										}
 									}
