@@ -22,8 +22,8 @@ data-options= 스크립트 코드 ==> html태그와 js를 섞어서 사용하는
 	$(document).ready(function(){
 		$("#cb_title").combobox({
 			//url: 'combobox_data.json' //json으로 가져와서 데이터를 뿌려줄려면 필요한 속성임.
-			valueField: 'label'
-			,textField: 'value'
+			valueField: 'label'//서버로 넘어가는 값
+			,textField: 'value'//화면에 보여질때 구별하는 값
 			,data: [{
 				label: 'java',
 				value: 'Java'

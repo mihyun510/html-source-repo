@@ -11,6 +11,9 @@
 	<script type="text/javascript" src="https://www.jeasyui.com/easyui/jquery.easyui.min.js"></script> <!-- eaayui사용 -->
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/jax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script><!-- jquery 쿠기 사용 -->
 	<script type="text/javascript">
+		function empnoSearch(){
+			alert("empnoSearch 호출");
+		}
 		function empList(){
 			$("#dg_emp").datagrid({
 	            url:"./jsonEmpList.jsp"
@@ -29,7 +32,7 @@
 		    $('#dg_emp').datagrid('beginEdit', getRowIndex(target));
 		}
 		function deleterow(target){
-		    $.messager.confirm('Confirm','Are you sure?',function(r){
+		    $.messager.confirm('Confirm','Are you sure?',function(r){ //삭제버튼 cancle을 눌렀을때 나오는 경고창.
 		        if (r){
 		            $('#dg_emp').datagrid('deleteRow', getRowIndex(target));
 		        }
@@ -45,12 +48,26 @@
 	</script>
 </head>
 <body>
+<!--=================검색조건 추가하기 시작=====================-->
+<div id="tbar_emp"><!-- form까지 같이 감싸서 js로 조작이 가능한 상태가 된다. div를 굳이 감싸는 이유 -->
+	<form id="f_search">
+		<table>
+			<tr>
+				<td width="190px">
+					<label width="80px">사원번호</label>
+					<input id="s_empno" name="s_empno" class="easyui-searchbox" data-options="prompt:'사원번호', searcher:empnoSearch" style="width:110px">
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+<!--=================검색조건 추가하기 끝=====================-->
 	<table id="dg_emp" class="jeasyui-datagrid"></talbe>
 	<script type="text/javascript">
 		$(document).ready(function(){//태그 스캔 완료 - js로 접근, 조작이 가능한 상태
 			$('#dg_emp').datagrid({
 			    url:'./jsonEmpList.jsp'
-			    ,title:"회원관리 - js만으로"
+			    ,title:"회원관리 - js만으로 & combox추가하기"
 			    ,width: 1000
 			    ,height: 600
 			    ,pagination: true
@@ -65,10 +82,20 @@
 			        ,{field:'SAL',title:'급여',width:100,align:'center', editor:'numberbox'}
 			        ,{field:'COMM',title:'인센티브',width:100,align:'center', editor:'numberbox'}
 			        ,{field:'HIREDATE',title:'입사날짜',width:100,align:'center', editor:'text', hidden:'true'}//hidden:'true':필요하지 않은 정보는 숨길수 있어요. 개발자들이 봐야되는 정보와 사용자가 봐야되는 정보가 구분되어 있다. 갖고는 있지만 보여주지는 않음.
-			        ,{field:'DEPTNO',title:'부서번호',width:100,align:'center', editor:'numberbox'} //실제로 값이 넘어가는 건 번호가 넘어가지만 화면에 보여지는 것은 부서이름이 보여지게 하기 
 			        ,{field:'MGR',title:'부서장번호',width:100,align:'center', editor:'numberbox'}
-			        ,{field:'action',title:'Action',width:100,align:'center',
-		                formatter:function(value,row,index){
+			        ,{field:'DEPTNO',title:'부서번호',width:150,align:'center'
+			        	    , editor:{
+			        	    	type:'combobox'
+			        	    	,options:{
+			        	    		valueField:'DEPTNO' //실제 서버에 넘어가는 필드, 그리고 텍스트 필드에 보여지는 값
+			        	    		,textField:'DNAME'//화면에 출력되는 필드, 콤보박스의 내용에 들어가는 값
+			        	    		,url:'./jsonDeptList.jsp'
+			        	    		,required:true
+			        	    	}////////////end of options
+			        	    }////////////////end of editor
+			        } //실제로 값이 넘어가는 건 번호가 넘어가지만 화면에 보여지는 것은 부서이름이 보여지게 하기 
+			        ,{field:'action',title:'Action',width:100,align:'center'
+			        	    , formatter:function(value,row,index){
 		                    if (row.editing){
 		                        var s = '<a href="javascript:void(0)" onclick="saverow(this)">Save</a> ';
 		                        var c = '<a href="javascript:void(0)" onclick="cancelrow(this)">Cancel</a>';
@@ -130,6 +157,7 @@
 						destroyUser();
 					}
 				}]
+				
 			});////////end of datagrid
 		});////////////end of ready
 	</script>

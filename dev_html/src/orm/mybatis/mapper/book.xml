@@ -6,6 +6,7 @@
    			from ajax_book
    		<where>
 		  <if test='book_title != null and choMode.equals("N")'> <!-- test: 체크를 한다. 컬럼에 대해서 null체크를 한다. null이 아니면 이 if문을 처리한다 -->
+	     <!-- ┌>여기 and 왜나온거?? -->
 			 and book_title LIKE '%'|| #{book_title}||'%' <!-- 초성이 아니면 이것 실행 -->
  		  </if>
 		  <if test='book_title != null and choMode.equals("Y")'> <!-- test: 체크를 한다. 컬럼에 대해서 null체크를 한다. null이 아니면 이 if문을 처리한다 -->

@@ -24,5 +24,6 @@
 		<mapper resource="orm/mybatis/mapper/emp.xml" /> <!-- 쿼리문이 들어있음. -->
 		<mapper resource="orm/mybatis/mapper/dept.xml" /> <!-- 쿼리문이 들어있음. -->
 		<mapper resource="orm/mybatis/mapper/book.xml" /> <!-- 쿼리문이 들어있음. -->
+		<mapper resource="orm/mybatis/mapper/common.xml" /> <!-- 쿼리문이 들어있음. -->
 	</mappers>
 </configuration>

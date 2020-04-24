@@ -45,10 +45,7 @@
 			        ,{field:'DEPTNO',title:'부서번호',width:100,align:'center'}
 			        ,{field:'MGR',title:'부서장이름',width:100,align:'center'}
 			    ]]
-/* 	 <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="empList()">사원조회</a>
-     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addUser()">사원입력</a>
-     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">사원편집</a>
-     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">사원삭제</a> */
+	
 				,toolbar: [{
 					text:'사원조회',
 					iconCls: 'icon-search',
@@ -78,8 +75,17 @@
 						destroyUser();
 					}
 				}]
+			/* ,toolbar: "#toolbar" div로 따로 버튼을 부분을 생성한 다음 아이디를 이용하여 toolbar에 추가하기 */
 			});////////end of datagrid
 		});////////////end of ready
 	</script>
+<!-- 	 
+ 	 <div id="toolbar">
+ 	 <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="empList()">사원조회</a>
+     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addUser()">사원입력</a>
+     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">사원편집</a>
+     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">사원삭제</a> 
+     </div>
+ -->
 </body>
 </html>

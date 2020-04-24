@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 루트태그는 무조건 mapper로 시작해야된다. 누구나 사용할 수있다.  버전   영문    명세서-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"><!-- 마이바티스를 사용하기 위한 선언문 - 명세서 -->
+<!-- 구분하기 위한 이름: 풀네임을 원칙으로 한다. ┌>아이아스명처럼주면됨 -->
+<mapper namespace="orm.mybatis.mapper.commonMappper">
+	<select id="getZDOList" parameterType="map" resultType="map">
+		SELECT distinct(zdo) FROM zipcode_t
+	</select>
+	<select id="getSiGuList" parameterType="map" resultType="map">
+		select distinct(sigu) as sigu from zipcode_t
+		<where>
+			<if test="zdo!=null">
+			  AND zdo =#{zdo}
+			</if>
+			<if test="sigu!=null">
+		 		AND sigu LIKE ${sigu}||'%'
+			</if>
+		</where>
+	</select>
+	<select id="getDongList" parameterType="map" resultType="map">
+		select distinct(dong) as dong from zipcode_t
+		<where>
+			<if test="zdo!=null">
+			  AND zdo =#{zdo}
+			</if>
+			<if test="sigu!=null">
+		 		AND sigu LIKE ${sigu}||'%'
+			</if>
+			<if test="sigu!=null">
+		 		AND dong LIKE ${dong}||'%'
+			</if>
+		</where>
+	</select>
+</mapper>
