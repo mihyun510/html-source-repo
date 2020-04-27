@@ -64,7 +64,7 @@
 			});
 		});///////////end of i_zdo
 		$("#d_sigu").change(function(){
-			$("#d_sigu option:selected").each(function(){
+			$("#d_sigu option:selected").each(function(){ //옵션의 값 중에 선택된 인덱스
 				var p_sigu = $(this).text();
 				//alert("p_sigu:"+p_sigu);
 				var p_zdo = $("#zdo").text();

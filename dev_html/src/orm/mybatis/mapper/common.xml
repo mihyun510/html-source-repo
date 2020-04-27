@@ -3,6 +3,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"><!-- 마이바티스를 사용하기 위한 선언문 - 명세서 -->
 <!-- 구분하기 위한 이름: 풀네임을 원칙으로 한다. ┌>아이아스명처럼주면됨 -->
 <mapper namespace="orm.mybatis.mapper.commonMappper">
+	<select id="zipcodeList" parameterType="map" resultType="map"><!-- resultType= 로우의 타입이 와야된다. 리스트가 아니다.-->
+		SELECT address from zipcode_t
+		<!-- 동적쿼리문을 지원한다. -->
+		<where>
+			<if test="dong!=null">
+				AND dong Like #{dong} || '%'
+			</if> 
+		</where>
+	</select>
 	<select id="getZDOList" parameterType="map" resultType="map">
 		SELECT distinct(zdo) FROM zipcode_t
 	</select>
