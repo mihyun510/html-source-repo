@@ -23,6 +23,9 @@
 		select empno, ename, job, mgr, hiredate, sal, comm, deptno 쿼리문을  발췌해서 테스트를 돌리자.
 		 from emps
 	</select> -->
+	<insert id="empINS" parameterType="map"> 
+		INSERT INTO emp(empno,ename,job,sal,comm,hiredate,mgr,deptno) VALUES(#{empno},#{ename},#{job},#{sal},#{comm},#{hiredate},#{mgr},#{deptno})<!-- ;은 찍으면 안됨 -->
+	</insert>
 	<delete id="empDelete" parameterType="map"> <!-- Delete도 오기 가능하다. 파라미터를 맵으로 넘기기 가능한데 아디다스명으로 parameterType="map"이렇게도 쓰기가 가능하다-->
 		delete from emp
 			where empno=#{empno} <!-- Map<String, Object> map.put("empno", 7566);이렇게 쓸수 있으니 위와같이 쓰시가 가능하다. -->

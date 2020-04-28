@@ -4,17 +4,26 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>사원관리 - [jEasyUI활용, 한페이지 안에 모두 코딩하기, 우편번호찾기 기능 추가하기] </title>
+<title>사원관리 - [jEasyUI활용, 한페이지 안에 모두 코딩하기] </title>
 	<%@ include file="./JEasyUICommon.jsp" %><!-- 공통된 내용을 인클루드 디렉티브하여 사용하기 include file= :인클루드 디렉티브, include page= :인클루드-->
 	<script type="text/javascript">
 	//전역변수 자리이다.
 	var g_address=""; //사용자가 선택한 주소정보 담기
-		function save(){
-			alert("저장 버튼 눌림");
+	$.fn.datebox.defaults.formatter = function(date){
+		var y = date.getFullYear();
+		var m = date.getMonth()+1;
+		var d = date.getDate();
+		return y+'-'+(m<10 ? "0"+m:m)+'-'+(d<10 ? "0"+d:d);
+	}
+	//데이트박스의 날짜에 대한 포맷을 지정함.
+	$.fn.datebox.defaults.parser = function(s){
+		var t = Date.parse(s);
+		if (!isNaN(t)){
+			return new Date(t);
+		} else {
+			return new Date();
 		}
-		function exit(){
-			alert("나가기 버튼 눌림");
-		}
+	}
 		function empINS(){
 			//insert here
 			alert("empINS()함수 호출 성공");
@@ -80,6 +89,18 @@
 				});
 			}
 		}
+		//사원정보 등록 처리
+		function emp_ins(){
+			alert("저장 눌림");
+			//form전송을 위한 코드를 추가 - 데이터전송을 from전송으로 하자.
+			//화면에서 입력받은 http프로토콜을 이용해서 서버쪽으로 전송되는데 이때 유니코드로 변환
+			//되어 전달됨
+			//해결방법 - server.xml문서에 포트번호 설정 위치(63번라인) URIEncoding="UTF-8"
+			//단, get방식에만 적용된다. post방식일때는 java코드를 활용하여 별도 처리
+			$("#f_ins").attr("method", "get");
+			$("#f_ins").attr("action", './empInsert.jsp');
+			$("#f_ins").submit(); //this을 사용해도 되지 않을까? - 구현이 완료되면 테스트해보기
+		}
 	</script>
 </head>
 <body>
@@ -109,8 +130,6 @@
 	<script type="text/javascript">
 		$(document).ready(function(){//태그 스캔 완료 - js로 접근, 조작이 가능한 상태
 			/* 동이름 입력 후 엔터 쳤을때 처리하기 */
-			var selzipcode="";
-			var seladdress="";
 			var t = $('#dong');
 			t.textbox('textbox').bind('keydown', function(e){
 				if (e.keyCode == 13){	// when press ENTER key, accept the inputed value.
@@ -165,7 +184,7 @@
 			});
 			$('#dg_emp').datagrid({
 			    url:'./jsonEmpList.jsp'
-			    ,title:"회원관리 - [jEasyUI활용, 한페이지 안에 모두 코딩하기, 우편번호찾기 기능 추가하기]"
+			    ,title:"회원관리 - [jEasyUI활용, 한페이지 안에 모두 코딩하기]"
 			    ,width: 1000
 			    ,height: 600
 			    ,pagination: true
@@ -242,10 +261,10 @@
 	</div> 
 	<!--======================우편번호 찾기 끝  =========================-->
 	<!--========================  사원등록  시작 [서브페이지는 메인페이지보다 앞에오면 안됨]  ==================================-->
-	<div id="dlg_ins" class="easyui-dialog"  data-options="closed:true, title:'사원정보 등록', modal: true" style="width: 100%; max-width: 480px; padding: 30px 60px"><!-- 반응형 웹을 위한 속성들.. -->
+	<div id="dlg_ins" class="easyui-dialog"  data-options="closed:true, title:'사원정보 등록', modal: true, footer: '#d_ins'" style="width: 100%; max-width: 480px; padding: 30px 60px"><!-- 반응형 웹을 위한 속성들.. -->
 		<form id="f_ins">
 			<div style="margin-bottom: 10px"><!-- 반응형웹으로 발전하면서 table태그보다 div를 사용하여 여백을 주는 방식을 많이 사용 -->
-				<input class="easyui-textbox" id="empno" name="empno" label="사원번호" labelPosition="top" data-options="prompt: 'Enter a EmpNO'" style="width: 200px;">
+				<input class="easyui-textbox" id="empno" name="empno" label="사원번호" labelPosition="top" data-options="prompt: 'Enter a EmpNO'" style="width: 200px;"/>
 			</div>
 			<div style="margin-bottom: 10px"><!-- 반응형웹으로 발전하면서 table태그보다 div를 사용하여 여백을 주는 방식을 많이 사용 -->
 				<input class="easyui-textbox" id="ename" name="ename" label="사원명" labelPosition="top" data-options="prompt: 'Enter a ENAME'" style="width: 200px;">
@@ -266,7 +285,13 @@
 				<input class="easyui-textbox" id="mgr" name="mgr" label="부서장번호" labelPosition="top" data-options="prompt: 'Enter a MGR'" style="width: 200px;">
 			</div>
 			<div style="margin-bottom: 10px"><!-- 반응형웹으로 발전하면서 table태그보다 div를 사용하여 여백을 주는 방식을 많이 사용 -->
-				<input class="easyui-combobox" id="deptno" name="deptno" label="부서번호" labelPosition="top" data-options="prompt: 'Enter a DEPTNO'" style="width: 200px;">
+				<input class="easyui-combobox" id="deptno" name="deptno" label="부서번호" labelPosition="top" style="width: 200px;"
+					   data-options="prompt: 'Enter a DEPTNO'
+					   				 ,valueField: 'DEPTNO'
+							         ,textField: 'DNAME'
+							         ,url: './jsonDeptList.jsp'
+							         ,onSelect: function(rec){
+							          }"/>
 			</div>
 			<div style="margin-bottom: 10px"><!-- 반응형웹으로 발전하면서 table태그보다 div를 사용하여 여백을 주는 방식을 많이 사용 -->
 				<input class="easyui-textbox" id="zipcode" name="zipcode" label="우편번호" labelPosition="top" data-options="prompt: 'Enter a ZIPCODE'" style="width: 200px;">
@@ -275,11 +300,12 @@
 			<div style="margin-bottom: 10px"><!-- 반응형웹으로 발전하면서 table태그보다 div를 사용하여 여백을 주는 방식을 많이 사용 -->
 				<input class="easyui-textbox" id="mem_addr" name="mem_addr" label="주소" labelPosition="top" data-options="prompt: 'Enter a ADDRESS'" style="width: 360px;">
 			</div>
-			<div align="center">
-				<a href="#" class="easyui-linkbutton"  iconCls="icon-ok" onClick="save()" style="width: 120px;">저장</a>
-				<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onClick="exit()" style="width: 120px;">닫기</a>
-			</div>
 		</form>
+			<div id="d_ins" style="margin-bottom: 10px" align="center">
+			<!-- 						┌>여기에 자바스크립트 코드를 사용할 수 있음. 제이쿼리를 이용해서 사용할 수 있고 메소드를 호출할 수 있다. -->
+				<a id="btn_save" href="javascript:emp_ins()" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" style="width: 120px;">저장</a>
+				<a id="btn_close" href="javascript:$('#dlg_ins').dialog('close')" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" style="width: 120px;">닫기</a>
+			</div>
 	</div>
 	<!--========================  사원등록  끝    [서브페이지는 메인페이지보다 앞에오면 안됨]  ==================================-->
 	<!--========================  사원수정  시작 [서브페이지는 메인페이지보다 앞에오면 안됨]  ==================================-->

@@ -16,6 +16,32 @@ import org.apache.log4j.Logger; //Logger가 포함되어있다.
 public class SqlMapEmpDao {
 	Logger logger = Logger.getLogger(SqlMapEmpDao.class); //logger파일 사용하기, (SqlMapEmpDao.class) 객체주입을 어떤것에 해줄것인가를 결정.
 	SqlSessionFactory sqlMapper = null; //파일을 배포해놨기 떄문에 사용가능. SqlSessionFactory는 java의 것이 아니다.
+	
+	//INSERT INTO emp VALUES(?,?,?,?,?,?,?,?)
+	/********************************************************************************
+	 * 사원등록하기
+	 * sql문 INSERT INTO emp VALIUES(?,?,?,?,?,?,?,?)
+	 * @param pMap(사원번호, 사원명, job, 급여, 인센티브, 고용날짜, 부서장번호 , 부서번호)  
+	 * @return result:인서트된갯수?
+	 ********************************************************************************/
+	public int empINS(Map<String, Object> pMap) { //여기서는 Map이나 VO가 와야된다. 여러가지의 타입을 담기 위해서
+		logger.info("empINS 호출");
+		int result = 0;
+		String resource = "orm/mybatis/Configuration.xml";
+		try {
+			Reader reader = Resources.getResourceAsReader(resource);
+			sqlMapper = new SqlSessionFactoryBuilder().build(reader);
+			SqlSession sqlSec = sqlMapper.openSession();
+			result = sqlSec.insert("empINS",pMap);
+			//result = sqlSec.update("empINS",pMap); 쿼리문을 id로 구별하기 때문에 insert, delete, update가 의미가 없다. delete로도 insert가 됨을 확인
+			logger.info("result: "+ result); //executeUpdate():int    
+			//오토커밋모드가 꺼진상태이므로 반드시 commit해주어야 한다.
+			sqlSec.commit();
+		} catch (Exception e) {
+			e.printStackTrace(); //스택영역에 히스토리를 모두 찍어준다. 힌트가 많음.
+		}
+		return result;
+	}
 	public List<Map<String, Object>> empList(Map<String, Object> pMap){
 		logger.info("empList호출성공");
 		logger.debug("debug"); //가장 낮은 단계
