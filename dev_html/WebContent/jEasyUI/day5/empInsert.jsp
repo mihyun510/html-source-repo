@@ -45,6 +45,13 @@
 	pmap.put("deptno", deptno);
 
 	int result = eDao.empINS(pmap);
-	//response.sendRedirect("EmpManager7.jsp"); //페이지 이동 - 새로고침을 위한 것 초기화면으로 가면 새로고침이됨.
+	
+	//response.sendRedirect("EmpManager7.jsp"); //페이지 이동 - 새로고침을 위한 것 초기화면으로 가면 새로고침이됨. 현재상태는 페이지이동이 없어도 오라클을 경유함 페이지 열리기 전에 db경우
 
+	if(result == 1){ //등록성공
+		response.sendRedirect("./EmpManager8.jsp"); //성공하면 페이지를 경유함.
+	} else { //등록실패
+		response.sendRedirect("./empInsertFail.jsp"); // 페이지 열리기 전 db 경유함
+	}
+	
 %>

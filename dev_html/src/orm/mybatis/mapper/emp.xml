@@ -16,6 +16,7 @@
 		  <if test="empno > 0"><!-- 동적쿼리를 위해서 if문를 사용가능하다. 조건이 없다면 모든결과가 나오고 조건을 주면 조건에 대한 결과만 나온다. 즉, 동적으로 움직이는 것을 확인.-->
 			 where empno = #{empno} <!-- 파라미터타입이 원시형(parameterType="int") 타입이면 value로 작성해야된다. -->
  		  </if>
+ 		  ORDER BY empno desc
 	</select> 
 	<!-- 		┌>아이디는 구분을 해야되니까 절대로 겹치면 안된다. 		┌>VO타입이 와도 된다. 만약 파일이 없다면 class notfound가 떨어진다.-->
 	<!-- <select id="empList2" parameterType="map" resultType="com.vo.empVO">resultType을 VO로 안하고 Map으로 해보자. 결과를 정해준 것으로 받아온다.알아서0
