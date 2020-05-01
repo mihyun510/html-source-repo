@@ -37,7 +37,6 @@
 			,onLoadSuccess:function(data){
 				alert("emp목록 로딩 성공");
 			}
-		
 		});
 	}
 </script>

@@ -64,6 +64,56 @@ public class SqlMapEmpDao {
 		return elist;
 	}
 	
+	/********************************************************************************
+	 * 사원수정하기
+	 * sql문 UPDATE emp SET ...... WHERE 컬럼명 = 값
+	 * @param pMap(사원번호)  
+	 * @return int
+	 ********************************************************************************/
+	public int empUPD(Map<String, Object> pMap) {
+		logger.info("empUPD 호출");
+		int result = 0;
+		String resource = "orm/mybatis/Configuration.xml";
+		try {
+			Reader reader = Resources.getResourceAsReader(resource);
+			sqlMapper = new SqlSessionFactoryBuilder().build(reader);
+			SqlSession sqlSec = sqlMapper.openSession();
+			result = sqlSec.update("empUPD",pMap);
+			logger.info("result: "+ result);
+			sqlSec.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/********************************************************************************
+	 * 사원삭제하기
+	 * sql문 DELETE FROM 테이블명 WHERE 컬럼명 IN (값)
+	 * @param String empnos[]  
+	 * @return int
+	 ********************************************************************************/
+	public int empDEL(String empnos[]) {
+		logger.info("empDEL 호출");
+		int result = 0;
+		String resource = "orm/mybatis/Configuration.xml";
+		try {
+			Reader reader = Resources.getResourceAsReader(resource);
+			sqlMapper = new SqlSessionFactoryBuilder().build(reader);
+			List<Integer> list = new ArrayList<Integer>();
+			for(int i =0; i<empnos.length;i++) {
+				logger.info(empnos[i]);
+				list.add(Integer.parseInt(empnos[i]));
+			}
+			SqlSession sqlSec = sqlMapper.openSession();
+			result = sqlSec.delete("empDEL",list); //자료구조를 스트링배열에 있던것을 list로 바꿔야된다. foreach문안에 collection의 타입이 list이므로 리스트여야지 데이터가 꽂힌다.
+			logger.info("result: "+ result);
+			sqlSec.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 	public static void main(String[] args) {
 		SqlMapEmpDao smd = new SqlMapEmpDao();
 		smd.empList(null); //조회한 로우 수: 16 조회된 갯수가 나옴.

@@ -4,38 +4,67 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>사원관리 - [jEasyUI활용, 한페이지 안에 모두 코딩하기, db을 경유하지 않는경우] </title>
+<title>사원관리 - [jEasyUI활용, 한페이지 안에 모두 코딩하기, db을 경유하지 않는경우, [수정,삭제]구현] </title>
 	<%@ include file="./JEasyUICommon.jsp" %><!-- 공통된 내용을 인클루드 디렉티브하여 사용하기 include file= :인클루드 디렉티브, include page= :인클루드-->
 	<script type="text/javascript">
-	//전역변수 자리이다.
-	var g_address=""; //사용자가 선택한 주소정보 담기
-	$.fn.datebox.defaults.formatter = function(date){
-		var y = date.getFullYear();
-		var m = date.getMonth()+1;
-		var d = date.getDate();
-		return y+'-'+(m<10 ? "0"+m:m)+'-'+(d<10 ? "0"+d:d);
-	}
-	//데이트박스의 날짜에 대한 포맷을 지정함.
-	$.fn.datebox.defaults.parser = function(s){
-		var t = Date.parse(s);
-		if (!isNaN(t)){
-			return new Date(t);
-		} else {
-			return new Date();
+		//전역변수 자리이다.
+		var g_address=""; //사용자가 선택한 주소정보 담기
+		var g_cnt = 0; //수정시 한 건만 선택되었는지 체크함.
+		var g_empno = 0;
+		$.fn.datebox.defaults.formatter = function(date){
+			var y = date.getFullYear();
+			var m = date.getMonth()+1;
+			var d = date.getDate();
+			return y+'-'+(m<10 ? "0"+m:m)+'-'+(d<10 ? "0"+d:d);
 		}
-	}
+		//데이트박스의 날짜에 대한 포맷을 지정함.
+		$.fn.datebox.defaults.parser = function(s){
+			var t = Date.parse(s);
+			if (!isNaN(t)){
+				return new Date(t);
+			} else {
+				return new Date();
+			}
+		}
+		//등록화면 열기
 		function empINS(){
 			//insert here
 			alert("empINS()함수 호출 성공");
 			 $('#dlg_ins').dialog('open').dialog('center').dialog('setTitle','사원입력');
 		}
-		function empUPD(empno){
-			alert("empUDP()함수 호출 성공");
-			 $('#dlg_upd').dialog('open').dialog('center').dialog('setTitle','사원편집');
-		}
-		function empDEL(){
-			alert("empDEL()함수 호출 성공");
-			 $('#dlg_del').dialog('open').dialog('center').dialog('setTitle','사원삭제');
+		//수정화면 열기
+		function empUPD(){
+			//insert here
+			if(g_cnt>1){
+				$.messager.alert('Info','한번에 한건만 수정할 수 있습니다.');
+				empList();
+				return;//empUPD함수 탈출
+			}
+			if(g_empno == 0){
+				$.messager.alert('Info','수정할 사원을 선택하세요.');
+				return;//empUPD함수 탈출
+			} else {
+				$.ajax({
+					url:'jsonEmpList.jsp?empno='+g_empno /* jsonEmpList에서 mineType을 json으로 설정하면 dataType을 따로 정해주지않아도 되나? */
+					,success:function(data){
+						//g_empno가 선택이 되었는지 확인해야됨. - onClickRow에서 선택됨.
+						//데이터를 가져와서 뿌리자 - 가져온 데이터를 오브젝트타입에서 스트링타입으로 파싱을 해야된다.
+						var result = JSON.stringify(data);
+						var arr =JSON.parse(result);
+						for(var i=0; i<arr.length;i++){
+							$("#u_empno").numberbox('setValue',arr[i].EMPNO);
+							$("#u_ename").textbox('setValue',arr[i].ENAME);
+							$("#u_job").textbox('setValue',arr[i].JOB);
+							$("#u_sal").textbox('setValue',arr[i].SAL);
+							$("#u_comm").textbox('setValue',arr[i].COMM);
+							$("#u_hiredate").datebox('setValue',arr[i].HIREDATE);
+							$("#u_mgr").textbox('setValue',arr[i].MGR);
+							$("#u_deptno").combobox('setValue',arr[i].DEPTNO);
+						}
+					}
+				});
+			}
+			$("#dlg_upd").dialog('open').dialog('center').dialog('setTitle','사원편집');
 		}
 		function empnoSearch(){ //사원번호로 사원검색하는 기능.
 			alert("empnoSearch 호출");
@@ -45,6 +74,9 @@
 			});  
 		}
 		function empList(){
+			//전역변수는 그 페이지내에서 계속 유지되므로 업무 프로세스가 새로 시작할 땐 처음값으로 반드시 초기화
+			//조회 될때 마다 새로 업무가 시작되도록 전역변수 초기화 해줄것
+			g_cnt = 0;
 			$("#dg_emp").datagrid({
 	            url:"./jsonEmpList.jsp"
            		,onLoadSuccess: function(data){
@@ -101,6 +133,29 @@
 			$("#f_ins").attr("action", './empInsert.jsp');
 			$("#f_ins").submit(); //this을 사용해도 되지 않을까? - 구현이 완료되면 테스트해보기
 		}
+		//사원정보 수정 처리
+		function emp_upd(){
+			alert("수정 저장 눌림");
+			$("#f_upd").attr("method", "get");
+			$("#f_upd").attr("action", './empUpdate.jsp');
+			$("#f_upd").submit(); //this을 사용해도 되지 않을까? - 구현이 완료되면 테스트해보기
+		}
+		//사원정보 삭제 처리 - 배열로 직접 보낼것이기 때문에 form전송은 필요없다.
+		function emp_del(){
+			alert("삭제버튼눌림");
+			var empnos = [];
+			var rows = $('#dg_emp').datagrid('getSelections');
+			for(var i=0; i<rows.length; i++){
+				empnos.push(rows[i].EMPNO);
+			}
+			//alert(empnos.join(','));
+			pempno = empnos.join(',');
+			$.messager.progress();//막대기 바 0%~100% -로딩?
+			if(empnos.length>0){
+				location.href="empDelete.jsp?empno="+pempno;
+			}
+			$("#dg_emp").datagrid('clearSelections');
+		}
 	</script>
 </head>
 <body>
@@ -118,8 +173,8 @@
 				<td>
 				 	 <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="empList()">사원조회</a>
 				     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="empINS()">사원입력</a>
-				     <a id="btn_upd" href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true">사원편집</a><!--  onclick="empUPD()" -->
-				     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="empDEL()">사원삭제</a> 
+				     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="empUPD()">사원편집</a><!--  onclick="empUPD()" -->
+				     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="emp_del()">사원삭제</a> 
 				</td>
 			</tr>
 		</table>
@@ -130,7 +185,6 @@
 	<script type="text/javascript">
 		$(document).ready(function(){//태그 스캔 완료 - js로 접근, 조작이 가능한 상태
 			/* 동이름 입력 후 엔터 쳤을때 처리하기 */
-			var selEmpno = 0;
 			var t = $('#dong');
 			t.textbox('textbox').bind('keydown', function(e){
 				if (e.keyCode == 13){	// when press ENTER key, accept the inputed value.
@@ -185,13 +239,13 @@
 			});
 			$('#dg_emp').datagrid({
 			    //url:'./jsonEmpList.jsp' DB를 바로 경유 하지 않는다.
-			    title:"회원관리 - [jEasyUI활용, 한페이지 안에 모두 코딩하기, 바로 DB를 경유하지 않는 경우]"
+			    title:"회원관리 - [jEasyUI활용, 한페이지 안에 모두 코딩하기, 바로 DB를 경유하지 않는 경우, [수정,삭제]구현]"
 			    ,width: 1000
 			    ,height: 600
 			    ,pagination: true
 			    ,rownumbers: true
 			    ,fitColumns: true
-			    ,singleSelect: true
+			    ,singleSelect: false //다중선택을 하겠다.
 			    ,columns:[[
 			        {field:'CK', checkbox:true , width:100, align:'center'}
 			        ,{field:'EMPNO',title:'사원번호',width:100, align:'center', editor:'numberbox'} //varchar or Stirng => text로 설정 
@@ -247,15 +301,14 @@
 				}
 				,toolbar: '#tbar_emp'
 				,onClickRow:function(index, row){ 
-					alert("선택했네 ==> "+index+", "+row.EMPNO); //선택한 행의 사원번호 가져오기
-					selEmpno = row.EMPNO;
+					//alert("선택했네 ==> "+index+", "+row.EMPNO); //선택한 행의 사원번호 가져오기
+					g_cnt++;
+					if(g_cnt == 1){
+						g_empno = row.EMPNO;
+					}
 				}
 			});////////end of datagrid
-			$("#btn_upd").linkbutton({
-				onClick: function(){
-					emp_upd(selEmpno);
-				}
-			});
+			
 		    //클래스로 한번에 속성주기
 			/*$("#dlg_upd").dialog({ //아이디로 속성주기 dom조작 제이쿼리를 이용해서, DOM이 구성된후 id에 접근할 수 있으니 ready함수에서 속정을 주기위해 제이쿼리로 아이디로 접근하기. ,data-options=""태그로 옵션 속성수기가능
 				closed:true
@@ -274,7 +327,7 @@
 	<div id="dlg_ins" class="easyui-dialog"  data-options="closed:true, modal: true, footer: '#d_ins'" style="width: 100%; max-width: 480px; padding: 30px 60px"><!-- 반응형 웹을 위한 속성들.. -->
 		<form id="f_ins">
 			<div style="margin-bottom: 10px"><!-- 반응형웹으로 발전하면서 table태그보다 div를 사용하여 여백을 주는 방식을 많이 사용 -->
-				<input class="easyui-textbox" id="empno" name="empno" label="사원번호" labelPosition="top" data-options="prompt: 'Enter a EmpNO'" style="width: 200px;"/>
+				<input class="easyui-numberbox" id="empno" name="empno" label="사원번호" labelPosition="top" data-options="prompt: 'Enter a EmpNO'" style="width: 200px;"/>
 			</div>
 			<div style="margin-bottom: 10px"><!-- 반응형웹으로 발전하면서 table태그보다 div를 사용하여 여백을 주는 방식을 많이 사용 -->
 				<input class="easyui-textbox" id="ename" name="ename" label="사원명" labelPosition="top" data-options="prompt: 'Enter a ENAME'" style="width: 200px;">
@@ -321,9 +374,61 @@
 	<!--========================  사원수정  시작 [서브페이지는 메인페이지보다 앞에오면 안됨]  ==================================-->
 	<div id="dlg_upd" class="easyui-dialog" data-options="closed:true, modal: true, footer: '#d_upd'" style="width: 100%; max-width: 480px; padding: 30px 60px"><!-- 반응형 웹을 위한 속성들.. -->
 		<form id="f_upd">
-		수정화면
+			<div style="margin-bottom: 10px"><!-- 반응형웹으로 발전하면서 table태그보다 div를 사용하여 여백을 주는 방식을 많이 사용 -->
+				<input class="easyui-numberbox" id="u_empno" name="u_empno" label="사원번호" labelPosition="top" data-options="prompt: 'Enter a EmpNO', editable:false" style="width: 200px;"/>
+			</div>
+			<div style="margin-bottom: 10px"><!-- 반응형웹으로 발전하면서 table태그보다 div를 사용하여 여백을 주는 방식을 많이 사용 -->
+				<input class="easyui-textbox" id="u_ename" name="u_ename" label="사원명" labelPosition="top" data-options="prompt: 'Enter a ENAME'" style="width: 200px;">
+			</div>
+			<div style="margin-bottom: 10px"><!-- 반응형웹으로 발전하면서 table태그보다 div를 사용하여 여백을 주는 방식을 많이 사용 -->
+				<input class="easyui-textbox" id="u_job" name="u_job" label="사원직급" labelPosition="top" data-options="prompt: 'Enter a JOB'" style="width: 200px;">
+			</div>
+			<div style="margin-bottom: 10px"><!-- 반응형웹으로 발전하면서 table태그보다 div를 사용하여 여백을 주는 방식을 많이 사용 -->
+				<input class="easyui-textbox" id="u_sal" name="u_sal" label="급여" labelPosition="top" data-options="prompt: 'Enter a SAL'" style="width: 200px;">
+			</div>
+			<div style="margin-bottom: 10px"><!-- 반응형웹으로 발전하면서 table태그보다 div를 사용하여 여백을 주는 방식을 많이 사용 -->
+				<input class="easyui-textbox" id="u_comm" name="u_comm" label="인센티브" labelPosition="top" data-options="prompt: 'Enter a COMM'" style="width: 200px;">
+			</div>
+			<div style="margin-bottom: 10px"><!-- 반응형웹으로 발전하면서 table태그보다 div를 사용하여 여백을 주는 방식을 많이 사용 -->
+				<input class="easyui-datebox" id="u_hiredate" name="u_hiredate" label="입사날짜" labelPosition="top" data-options="prompt: 'Enter a HIREDATE'" style="width: 200px;">
+			</div>
+			<div style="margin-bottom: 10px"><!-- 반응형웹으로 발전하면서 table태그보다 div를 사용하여 여백을 주는 방식을 많이 사용 -->
+				<input class="easyui-textbox" id="u_mgr" name="u_mgr" label="부서장번호" labelPosition="top" data-options="prompt: 'Enter a MGR'" style="width: 200px;">
+			</div>
+			<div style="margin-bottom: 10px"><!-- 반응형웹으로 발전하면서 table태그보다 div를 사용하여 여백을 주는 방식을 많이 사용 -->
+				<input class="easyui-combobox" id="u_deptno" name="u_deptno" label="부서번호" labelPosition="top" style="width: 200px;"
+					   data-options="prompt: 'Enter a DEPTNO'
+					   				 ,valueField: 'DEPTNO'
+							         ,textField: 'DNAME'
+							         ,url: './jsonDeptList.jsp'
+							         ,onSelect: function(rec){
+							          }"/>
+			</div>
+			<div style="margin-bottom: 10px"><!-- 반응형웹으로 발전하면서 table태그보다 div를 사용하여 여백을 주는 방식을 많이 사용 -->
+				<input class="easyui-textbox" id="u_zipcode" name="u_zipcode" label="우편번호" labelPosition="top" data-options="prompt: 'Enter a ZIPCODE'" style="width: 200px;">
+				<a id="btn_zipcode" class="easyui-linkbutton">우편번호찾기</a>
+			</div>
+			<div style="margin-bottom: 10px"><!-- 반응형웹으로 발전하면서 table태그보다 div를 사용하여 여백을 주는 방식을 많이 사용 -->
+				<input class="easyui-textbox" id="u_mem_addr" name="u_mem_addr" label="주소" labelPosition="top" data-options="prompt: 'Enter a ADDRESS'" style="width: 360px;">
+			</div>
 		</form>
+		<div id="d_upd" style="margin-bottom: 10px" align="center">
+			<!-- 						┌>여기에 자바스크립트 코드를 사용할 수 있음. 제이쿼리를 이용해서 사용할 수 있고 메소드를 호출할 수 있다. -->
+				<a id="btn_save" href="javascript:emp_upd();" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" style="width: 120px;">저장</a>
+				<a id="btn_close" href="javascript:$('#dlg_upd').dialog('close')" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" style="width: 120px;">닫기</a>
+		</div>
 	</div>
+	<%
+		//수정처리가 완료된거니?
+		String mode = request.getParameter("mode");
+		if("update".equals(mode)){
+	%>
+		<script type="text/javascript">
+			empList(); //수정이 끝나고 다시 호출을 해주어야 새로고침가능
+		</script>
+	<%
+		}
+	%>
 	<!--========================  사원수정  끝    [서브페이지는 메인페이지보다 앞에오면 안됨]  ==================================-->
 	<!--========================  사원삭제  시작 [서브페이지는 메인페이지보다 앞에오면 안됨]  ==================================-->
 	<div id="dlg_del" class="easyui-dialog" data-options="closed:true, modal: true" style="width: 100%; max-width: 480px; padding: 30px 60px"><!-- 반응형 웹을 위한 속성들.. -->

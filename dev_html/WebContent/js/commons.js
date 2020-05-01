@@ -14,5 +14,5 @@ function cmm_window_popup(url, popupwidth, popupheight, popupname)
 	options = "location=yes, fullscreen=no, status=no";
 	options += ", left="+Left+", top="+Top;
 	options +=", width="+popupwidth+", height="+popupheight;
-	popupname = window.open(url,popupname,options);
+	popupname = window.open(url,popupname,options);//window.open:페이지의 팝업창을 오픈하기.target:내가 팝업창을 띄울 위치 ex. 부모창, 내창, 3자 창 등등
 } 
